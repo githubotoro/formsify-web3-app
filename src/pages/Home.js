@@ -9,12 +9,12 @@ const Home = () => {
 				<div className="hero bg-base-200">
 					<div className="hero-content text-center">
 						<div className="max-w-3xl md:max-w-5xl lg:max-w-8xl">
-							<h1 className="mt-2 sm:mt-14 md:mt-16 lg:mt-20 text-4xl sm:text-4xl md:text-6xl lg:text-7xl font-black drop-shadow-sm">
-								let's create&nbsp;
-								<div className="py-0 px-2 badge font-extrabold text-2xl sm:text-4xl md:text-6xl lg:text-7xl rounded-lg shadow-lg w-fit h-fit items-center">
-									better
+							<h1 className="mt-2 sm:mt-14 md:mt-16 lg:mt-20 text-5xl md:text-6xl lg:text-7xl font-black drop-shadow-sm space-y-2">
+								<div className="inline">Let's Create&nbsp;</div>
+								<div className="py-0 px-2 badge font-extrabold text-5xl md:text-6xl lg:text-7xl rounded-lg shadow-lg w-fit h-fit items-center">
+									Better
 								</div>
-								&nbsp;forms
+								<div className="inline">&nbsp;Forms</div>
 							</h1>
 
 							<div className="mt-5 md:mt-4 lg:mt-3 space-y-2 sm:space-y-2 md:space-y-3 lg:space-y-4 md:p-3 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent drop-shadow-sm">
