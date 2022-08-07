@@ -29,9 +29,6 @@ import { ContractFactory } from "ethers";
 
 import { useNavigate } from "react-router-dom";
 
-import JSEncrypt from "jsencrypt";
-// import { ImageUpload } from "react-ipfs-uploader";
-
 const FormDesign = () => {
 	const navigate = useNavigate();
 
@@ -47,7 +44,6 @@ const FormDesign = () => {
 	const CONTRACT_ABI = MainFormsifyContract.abi;
 	const CONTRACT_BYTECODE = MainFormsifyContract.bytecode;
 
-	const [formKey, setFormKey] = useState(new JSEncrypt());
 	const [imageUrl, setImageUrl] = useState("");
 
 	// const setBanner = () => {
@@ -97,8 +93,8 @@ const FormDesign = () => {
 		formAllowedTotalFills: INFINITE,
 		formStartTime: formatDate(defaultTime),
 		formEndTime: formatDate(defaultTime),
-		formPublicKey: formKey.getPublicKey(),
-		formPrivateKey: formKey.getPrivateKey(),
+		formPublicKey: "some public key",
+		formPrivateKey: "some private key",
 	});
 
 	const [formDeployed, setFormDeployed] = useState(false);
@@ -173,8 +169,9 @@ const FormDesign = () => {
 									/>
 								</svg>
 								<div>
-									<span className="font-black">Loading</span>
-									&nbsp;Form...
+									<span className="font-black">
+										Loading Form...
+									</span>
 								</div>
 							</div>,
 							{
@@ -256,7 +253,7 @@ const FormDesign = () => {
 						</svg>
 						<div>
 							Form has been&nbsp;
-							<span className="font-black">deployed</span>
+							<span className="font-black">Deployed.</span>
 						</div>
 					</div>
 				),
@@ -371,6 +368,9 @@ const FormDesign = () => {
 						FormsifyContractReceipt.deployTransaction
 					),
 				});
+
+				const userDoc = await getDoc(userDocRef);
+				setUser(userDoc.data());
 			} catch (err) {
 				setDeployed("error");
 				console.log(err);
@@ -393,8 +393,10 @@ const FormDesign = () => {
 						/>
 					</svg>
 					<div>
-						Wallet&nbsp;
-						<span className="font-black">Not Connected!</span>&nbsp;
+						<span className="font-black">
+							Wallet Not Connected!
+						</span>
+						&nbsp;
 					</div>
 				</div>,
 				{
@@ -429,6 +431,7 @@ const FormDesign = () => {
 						</div>
 					</div>,
 					{
+						autoClose: false,
 						toastId: "savingDraft",
 						progressClassName: "border-4 border-neutral",
 					}
@@ -468,11 +471,12 @@ const FormDesign = () => {
 							</svg>
 							<div>
 								Draft has been&nbsp;
-								<span className="font-black">saved</span>
+								<span className="font-black">Saved.</span>
 							</div>
 						</div>
 					),
 
+					autoClose: 1200,
 					progressClassName: "border-4 border-success",
 				});
 			} catch (err) {
@@ -500,6 +504,7 @@ const FormDesign = () => {
 						</div>
 					</div>,
 					{
+						autoClose: 1200,
 						progressClassName: "border-4 border-error",
 					}
 				);
@@ -522,8 +527,10 @@ const FormDesign = () => {
 						/>
 					</svg>
 					<div>
-						Wallet&nbsp;
-						<span className="font-black">Not Connected!</span>&nbsp;
+						<span className="font-black">
+							Wallet Not Connected!
+						</span>
+						&nbsp;
 					</div>
 				</div>,
 				{
@@ -914,8 +921,8 @@ const FormDesign = () => {
 				</svg>
 				<div>
 					Field has been changed to{" "}
-					<span className="font-black">
-						{fieldTypesNames[newFieldType]}
+					<span className="font-black capitalize">
+						{fieldTypesNames[newFieldType]}.
 					</span>
 				</div>
 			</div>,
@@ -946,7 +953,8 @@ const FormDesign = () => {
 					/>
 				</svg>
 				<div>
-					New field has been <span className="font-black">added</span>
+					New field has been{" "}
+					<span className="font-black">Added.</span>
 				</div>
 			</div>,
 			{
@@ -982,7 +990,7 @@ const FormDesign = () => {
 					/>
 				</svg>
 				<div>
-					Field has been <span className="font-black">deleted</span>
+					Field has been <span className="font-black">Deleted.</span>
 				</div>
 			</div>,
 			{
@@ -1104,6 +1112,7 @@ const FormDesign = () => {
 						{fields[index].required === true
 							? "Required"
 							: "Not Required"}
+						.
 					</span>
 				</div>
 			</div>,
@@ -1410,7 +1419,7 @@ const FormDesign = () => {
 				</svg>
 				<div>
 					Form theme has been changed to{" "}
-					<span className="font-black capitalize">{theme}</span>
+					<span className="font-black capitalize">{theme}.</span>
 				</div>
 			</div>,
 			{
@@ -1773,11 +1782,9 @@ const FormDesign = () => {
 										/>
 									</svg>
 									<div>
-										Wallet&nbsp;
 										<span className="font-black">
-											Not Connected!
+											Wallet Not Connected!
 										</span>
-										&nbsp;
 									</div>
 								</div>,
 								{
@@ -1885,13 +1892,13 @@ const FormDesign = () => {
 						<div className="card-body px-4 py-3 md:px-5 md:py-4 lg:px-6 lg:py-5">
 							<div className=" flex flex-col w-full md:flex-row items-center">
 								<div className="-mt-6 grid flex-grow h-32 card bg-base-300 rounded-box place-items-center">
-									<h2 className="card-title font-black text-xl justify-center items-center focus:border-b-8 flex-col">
+									<h2 className="card-title font-black text-lg md:text-xl justify-center items-center focus:border-b-8 flex-col">
 										<h1 className="w-fit uppercase">
 											Form Opening Time
 										</h1>
 										<input
 											type="datetime-local"
-											className="mx-1 input input-bordered border-4 text-lg appearance-none z-10"
+											className="mx-1 input input-bordered border-4 text-md md:text-lg appearance-none z-10"
 											value={formParameters.formStartTime}
 											onChange={(e) => {
 												changeFormParameter(
@@ -1904,13 +1911,13 @@ const FormDesign = () => {
 								</div>
 
 								<div className="-mt-7 sm:-mt-6 grid flex-grow h-32 card bg-base-300 rounded-box place-items-center">
-									<h2 className="card-title font-black text-xl justify-center items-center focus:border-b-8 flex-col">
+									<h2 className="card-title font-black text-lg md:text-xl justify-center items-center focus:border-b-8 flex-col">
 										<h1 className="w-fit uppercase">
 											Form Closing Time
 										</h1>
 										<input
 											type="datetime-local"
-											className="mx-1 input input-bordered border-4 text-lg appearance-none"
+											className="mx-1 input input-bordered border-4 text-md md:text-lg appearance-none"
 											value={formParameters.formEndTime}
 											onChange={(e) => {
 												changeFormParameter(
@@ -1923,7 +1930,7 @@ const FormDesign = () => {
 								</div>
 							</div>
 
-							<h2 className="z-10 -mt-3 card-title font-bold text-xl justify-center items-center focus:border-b-8 flex-col">
+							<h2 className="z-10 -mt-3 card-title font-bold text-sm md:text-md lg:text-lg justify-center items-center focus:border-b-8 flex-col">
 								<h1 className="w-fit capitalize">
 									<span className="font-black uppercase">
 										Note:
@@ -2052,6 +2059,81 @@ const FormDesign = () => {
 		dark: "bg-success",
 	};
 
+	const formBanner = () => {
+		return (
+			<>
+				<center>
+					<div className="card w-11/12 bg-base-300 shadow-xl border-t-8 border-secondary-focus ">
+						<div className="card-body p-0">
+							<h2 className="card-title font-black text-2xl md:text-3xl lg:text-4xl justify-start focus:border-b-8">
+								{/* <img
+									className="h-72 w-full object-cover"
+									src={}
+								/> */}
+							</h2>
+							<h2 className="card-title font-bold text-lg md:text-xl lg:text-2xl justify-center -mt-20 pb-4">
+								{/* CHANGE BANNER */}
+								<label
+									// onClick={() => {
+									// 	deployContract();
+									// }}
+									for="formBannerModal"
+									className="btn btn-sm h-fit w-fit px-3 py-1 capitalize font-black text-lg border-4 border-neutral-content shadow-sm shadow-neutral-focus"
+								>
+									Change Banner
+								</label>
+								{/* CHANGE BANNER */}
+								<input
+									type="checkbox"
+									id="formBannerModal"
+									className="modal-toggle"
+								/>
+								<div className="modal backdrop-blur-sm">
+									<div className="modal-box w-11/12 max-w-xl">
+										<center>
+											<h3 className="h-fit badge rounded-xl py-1 uppercase w-full font-black text-xl mt-1">
+												FORM BANNER
+											</h3>
+										</center>
+
+										<div className="flex justify-center">
+											<input
+												// onChange={handleChange}
+												className="flex py-2 text-md justify-center items-center"
+												type="file"
+												id="file"
+												name="file"
+												accept="image/*"
+											/>
+										</div>
+
+										<div className="modal-action">
+											<label
+												// onClick={() => {
+												// 	handleSubmit();
+												// }}
+												for={`formBannerModal`}
+												className="btn btn-sm btn-primary font-bold text-lg capitalize"
+											>
+												Submit
+											</label>
+											<label
+												for={`formBannerModal`}
+												className="btn btn-sm font-bold text-lg capitalize"
+											>
+												Close
+											</label>
+										</div>
+									</div>
+								</div>
+							</h2>
+						</div>
+					</div>
+				</center>
+			</>
+		);
+	};
+
 	return (
 		<>
 			<div
@@ -2065,6 +2147,10 @@ const FormDesign = () => {
 						<div className="blankDiv pt-4" />
 
 						{formTimings()}
+
+						{/* <div className="blankDiv pt-4" />
+
+						{formBanner()} */}
 
 						<div className="blankDiv pt-4" />
 

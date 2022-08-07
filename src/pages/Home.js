@@ -272,7 +272,7 @@ const Home = () => {
 							&nbsp;bots can spam the form 💰
 							<br />
 							<span className="font-extrabold ">
-								See yaa later, Bots! 👋
+								Good-Bye, Bots! 👋
 							</span>
 						</center>
 					</div>

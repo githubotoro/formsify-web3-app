@@ -19,6 +19,7 @@ import { useState } from "react";
 import FormFill from "./pages/FormFill";
 
 import { injectStyle } from "react-toastify/dist/inject-style";
+import FormView from "./pages/FormView";
 
 function App() {
 	if (typeof window !== "undefined") {
@@ -106,6 +107,15 @@ function App() {
 									element={
 										<>
 											<FormFill />
+										</>
+									}
+								/>
+								<Route
+									path="/:formOwner/:formId/responses"
+									element={
+										<>
+											<Navigation />
+											<FormView />
 										</>
 									}
 								/>

@@ -3,6 +3,8 @@ import FillRender from "../components/FillRender";
 import { useAccount, useSigner } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
+import { chain, chainId, useNetwork } from "wagmi";
+
 import { ethers } from "ethers";
 import { useState, useEffect, useContext } from "react";
 import { useParams, useLocation } from "react-router-dom";
@@ -23,6 +25,9 @@ import MainFormsifyContract from "../helper/Formsify.json";
 import TextareaAutosize from "react-textarea-autosize";
 import { UserContext } from "../helper/UserContext";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const FormFill = () => {
 	const { User, setUser } = useContext(UserContext);
 
@@ -30,6 +35,9 @@ const FormFill = () => {
 	const FORM_OWNER = params.formOwner;
 	const FORM_ID = params.formId;
 	const FORM_ABI = MainFormsifyContract.abi;
+
+	const { address, isConnected, connector } = useAccount();
+	const { chain } = useNetwork();
 
 	const [formParameters, setFormParameters] = useState({});
 	const [fields, setFields] = useState([]);
@@ -52,6 +60,115 @@ const FormFill = () => {
 
 	const isFormDeployed = params.preview;
 
+	const formsifyCustomRainbowConnectWallet = () => {
+		return (
+			<ConnectButton.Custom>
+				{({
+					account,
+					chain,
+					openAccountModal,
+					openChainModal,
+					openConnectModal,
+					mounted,
+				}) => {
+					return (
+						<div
+							{...(!mounted && {
+								"aria-hidden": true,
+								style: {
+									opacity: 0,
+									pointerEvents: "none",
+									userSelect: "none",
+								},
+							})}
+						>
+							{(() => {
+								if (!mounted || !account || !chain) {
+									return (
+										<button
+											className="btn btn-primary btn-sm h-fit w-fit px-2 py-0 sm:px-3 sm:py-1 items-center capitalize font-black text-md sm:text-lg border-4 border-accent shadow-sm shadow-accent-focus"
+											onClick={openConnectModal}
+											type="button"
+										>
+											Connect Wallet
+										</button>
+									);
+								}
+								if (chain.unsupported) {
+									return (
+										<button
+											className="btn btn-error btn-sm h-fit w-fit px-3 py-1 capitalize font-black text-lg border-4 border-warning shadow-sm shadow-warning-focus"
+											onClick={openChainModal}
+											type="button"
+										>
+											Wrong network
+										</button>
+									);
+								}
+								return (
+									<div
+										className="justify-center flex flex-row items-center"
+										style={{ display: "flex", gap: 12 }}
+									>
+										<button
+											className="btn btn-accent btn-sm h-fit w-fit px-1 sm:px-3 py-1 capitalize font-black text-lg border-4 border-primary shadow-sm shadow-primary-focus"
+											onClick={openChainModal}
+											style={{
+												display: "flex",
+												alignItems: "center",
+											}}
+											type="button"
+										>
+											{/* {chain.hasIcon && (
+												<div
+													style={{
+														background:
+															chain.iconBackground,
+														width: 12,
+														height: 12,
+														borderRadius: 999,
+														overflow: "hidden",
+														marginRight: 4,
+													}}
+												>
+													{chain.iconUrl && (
+														<img
+															alt={
+																chain.name ??
+																"Chain icon"
+															}
+															src={chain.iconUrl}
+															style={{
+																width: 12,
+																height: 12,
+															}}
+														/>
+													)}{" "}
+												</div>
+											)}{" "}
+											&nbsp; &nbsp; */}
+											{chain.name}
+										</button>
+										<button
+											className="btn btn-primary btn-sm h-fit w-fit px-2 sm:px-3 py-1 capitalize font-black text-lg border-4 border-accent shadow-sm shadow-accent-focus"
+											onClick={openAccountModal}
+											type="button"
+										>
+											{account.displayName}
+											{/* {account.displayBalance
+												? ` (${account.displayBalance})`
+												: ""} */}
+										</button>
+									</div>
+								);
+							})()}
+						</div>
+					);
+				}}
+			</ConnectButton.Custom>
+		);
+	};
+
 	useEffect(() => {
 		if (fields.length !== 0) {
 			let responseList = [];
@@ -72,8 +189,6 @@ const FormFill = () => {
 			}
 
 			setResponses(responseList);
-
-			console.log(formParameters);
 		}
 	}, [fields]);
 
@@ -287,8 +402,6 @@ const FormFill = () => {
 		let newResponses = [...responses];
 		newResponses[index] = e.target.value;
 		setResponses(newResponses);
-
-		console.log(newResponses);
 	};
 
 	// Change Input Choice MCQ
@@ -301,8 +414,6 @@ const FormFill = () => {
 
 		newResponses[index][choiceIndex] = true;
 		setResponses(newResponses);
-
-		console.log(newResponses);
 	};
 
 	// Change Input Choice Checkbox
@@ -311,8 +422,6 @@ const FormFill = () => {
 
 		newResponses[index][choiceIndex] = !newResponses[index][choiceIndex];
 		setResponses(newResponses);
-
-		console.log(newResponses);
 	};
 
 	// Get field input based on field type
@@ -545,21 +654,87 @@ const FormFill = () => {
 		return <>{formUI()}</>;
 	};
 
-	const submitResponse = async () => {
-		try {
-			const userSigner = formProvider.getSigner();
-			const userFormsifyContract = new ethers.Contract(
-				formAddress,
-				FORM_ABI,
-				signer
-			);
+	const isFormFilled = () => {
+		console.log(fields);
+		for (let i = 0; i < fields.length; i++) {
+			if (fields[i].required === "true" || fields[i].required === true) {
+				if (
+					fields[i].fieldType === `shortResponse` ||
+					fields[i].fieldType === `longResponse` ||
+					fields[i].fieldType === `dateResponse` ||
+					fields[i].fieldType === `timeResponse` ||
+					fields[i].fieldType === `numberResponse` ||
+					fields[i].fieldType === `dateAndTime`
+				) {
+					if (responses[i] === ``) {
+						return false;
+					}
+				} else if (
+					fields[i].fieldType === `multipleChoice` ||
+					fields[i].fieldType === `checkBoxes`
+				) {
+					let flag = 0;
 
-			const addResponse = await userFormsifyContract.addRecord(
-				JSON.stringify(responses)
+					for (let j = 0; j < fields[i].choices.length; j++) {
+						if (responses[i][j] === true) {
+							flag += 1;
+						}
+					}
+
+					if (flag === 0) {
+						return false;
+					}
+				}
+			}
+		}
+
+		return true;
+	};
+
+	const submitResponse = async () => {
+		if (isFormFilled()) {
+			try {
+				const userSigner = formProvider.getSigner();
+				const userFormsifyContract = new ethers.Contract(
+					formAddress,
+					FORM_ABI,
+					signer
+				);
+
+				const addResponse = await userFormsifyContract.addRecord(
+					JSON.stringify(responses)
+				);
+				await addResponse.wait();
+			} catch (err) {
+				console.log(err);
+			}
+		} else {
+			toast(
+				<div className="flex flex-col font-bold items-center justify-center">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						className="h-6 w-6 stroke-error"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						strokeWidth={3}
+					>
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+						/>
+					</svg>
+					<div>
+						<span className="font-black">
+							Fill All Required Fields!
+						</span>
+					</div>
+				</div>,
+				{
+					progressClassName: "border-4 border-error",
+				}
 			);
-			await addResponse.wait();
-		} catch (err) {
-			console.log(err);
 		}
 	};
 
@@ -568,7 +743,68 @@ const FormFill = () => {
 			<>
 				<button
 					onClick={() => {
-						submitResponse();
+						if (isConnected) {
+							if (chain.id === 80001) {
+								submitResponse();
+							} else {
+								toast(
+									<div className="flex flex-col font-bold items-center justify-center">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											className="h-6 w-6 stroke-error"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+											strokeWidth={3}
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+											/>
+										</svg>
+										<div>
+											<span className="font-black">
+												Wrong Chain!
+											</span>
+											&nbsp;
+										</div>
+									</div>,
+									{
+										progressClassName:
+											"border-4 border-error",
+									}
+								);
+							}
+						} else {
+							toast(
+								<div className="flex flex-col font-bold items-center justify-center">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-6 w-6 stroke-error"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+										strokeWidth={3}
+									>
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+										/>
+									</svg>
+									<div>
+										<span className="font-black">
+											Wallet Not Connected!
+										</span>
+										&nbsp;
+									</div>
+								</div>,
+								{
+									progressClassName: "border-4 border-error",
+								}
+							);
+						}
 					}}
 					className="btn btn-sm h-fit w-fit px-3 py-1 capitalize font-black text-lg border-4 border-neutral-content shadow-sm shadow-neutral-focus"
 				>
@@ -578,7 +814,14 @@ const FormFill = () => {
 		);
 	};
 
-	// console.log(formParameters.startTime);
+	const contextClass = {
+		success: "bg-success",
+		error: "bg-error",
+		info: "bg-info",
+		warning: "bg-warning",
+		default: "bg-success",
+		dark: "bg-success",
+	};
 
 	return (
 		<>
@@ -590,6 +833,9 @@ const FormFill = () => {
 						{" "}
 						<div className="flex flex-col w-full min-h-screen bg-gradient-to-br from-primary to-accent">
 							<center>
+								<div className="bg-base-200 py-4">
+									{formsifyCustomRainbowConnectWallet()}
+								</div>
 								<div className="pt-5 pb-5 max-w-[75rem]">
 									{formHeader()}
 									<div className="blankDiv pt-4" />
@@ -602,6 +848,19 @@ const FormFill = () => {
 						</div>
 					</>
 				)}
+				<ToastContainer
+					toastClassName={({ type }) =>
+						contextClass[type || "default"] +
+						"relative flex flex-col p-1 rounded-xl justify-between overflow-hidden cursor-pointer m-2 bg-base-100 ease-in-out"
+					}
+					bodyClassName={() =>
+						"text-md block p-1 text-base-content justify-center items-center"
+					}
+					position="top-right"
+					autoClose={1200}
+					closeButton={false}
+					hideProgressBar={true}
+				/>
 			</div>
 		</>
 	);

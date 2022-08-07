@@ -72,7 +72,7 @@ const Dashboard = () => {
 		});
 	};
 
-	const [activeTab, setActiveTab] = useState(`viewTab`);
+	const [activeTab, setActiveTab] = useState(`createTab`);
 
 	const changeActiveTab = (tabName) => {
 		setActiveTab(tabName);
@@ -83,7 +83,7 @@ const Dashboard = () => {
 			<>
 				<div className="tabs tabs-boxed w-full bg-base-200 rounded-none font-black justify-around  py-2 overflow-hidden">
 					<a
-						className={`w-3/12 px-14 tab btn btn-sm btn-accent shadow-md capitalize font-black rounded-lg text-xl md:text-2xl py-1 h-fit hover:bg-primary hover:text-primary-content border-none ${
+						className={`w-3/12 px-10 md:px-14 tab btn btn-sm btn-accent shadow-md capitalize font-black rounded-lg text-lg md:text-2xl py-0 md:py-1 h-fit hover:bg-primary hover:text-primary-content border-none ${
 							activeTab === "viewTab" ? "tab-active" : ""
 						}`}
 						onClick={() => {
@@ -93,7 +93,7 @@ const Dashboard = () => {
 						View
 					</a>
 					<a
-						className={`w-3/12 px-14 tab btn btn-sm btn-accent shadow-md capitalize font-black rounded-lg text-xl md:text-2xl py-1 h-fit hover:bg-primary hover:text-primary-content border-none ${
+						className={`w-3/12 px-10 md:px-14 tab btn btn-sm btn-accent shadow-md capitalize font-black rounded-lg text-lg md:text-2xl py-0 md:py-1 h-fit hover:bg-primary hover:text-primary-content border-none ${
 							activeTab === "createTab" ? "tab-active" : ""
 						}`}
 						onClick={() => {
@@ -102,7 +102,7 @@ const Dashboard = () => {
 					>
 						Create
 					</a>
-					<a
+					{/* <a
 						className={`w-3/12 px-14 tab btn btn-sm btn-accent shadow-md capitalize font-black rounded-lg text-xl md:text-2xl py-1 h-fit hover:bg-primary hover:text-primary-content border-none ${
 							activeTab === "statsTab" ? "tab-active" : ""
 						}`}
@@ -111,7 +111,7 @@ const Dashboard = () => {
 						}}
 					>
 						Stats
-					</a>
+					</a> */}
 				</div>
 			</>
 		);
@@ -288,9 +288,9 @@ const Dashboard = () => {
 																<div className="mt-1 flex flex-row">
 																	<button
 																		onClick={() => {
-																			// createForm(
-																			// 	formTemplate.templateName
-																			// );
+																			navigate(
+																				`/${address}/${key}/responses`
+																			);
 																		}}
 																		className="btn btn-sm btn-primary h-fit w-fit px-3 py-1 capitalize font-black text-sm md:text-lg lg:text-xl shadow-md"
 																	>
@@ -504,7 +504,7 @@ const Dashboard = () => {
 	const formTemplates1 = [
 		{
 			templateName: `blankTemplate`,
-			templateTitle: `Blank`,
+			templateTitle: `Blank Form`,
 			templateDescription: `Start from Scratch... ✒️`,
 			templateSVG: (
 				<>
@@ -522,7 +522,7 @@ const Dashboard = () => {
 		},
 		{
 			templateName: `meetTemplate`,
-			templateTitle: `Meet`,
+			templateTitle: `Meet Form`,
 			templateDescription: `Organize a Meetup! 👋`,
 			templateSVG: (
 				<>
@@ -543,7 +543,7 @@ const Dashboard = () => {
 		},
 		{
 			templateName: `contactTemplate`,
-			templateTitle: `Contact`,
+			templateTitle: `Contact Form`,
 			templateDescription: `Have any queries? ☎️`,
 			templateSVG: (
 				<>
@@ -563,7 +563,7 @@ const Dashboard = () => {
 	const formTemplates2 = [
 		{
 			templateName: `partyTemplate`,
-			templateTitle: `Party`,
+			templateTitle: `Party Form`,
 			templateDescription: `Where's the Party at? 🥳`,
 			templateSVG: (
 				<>
@@ -584,7 +584,7 @@ const Dashboard = () => {
 		},
 		{
 			templateName: `rsvpTemplate`,
-			templateTitle: `RSVP`,
+			templateTitle: `RSVP Form`,
 			templateDescription: `Are you coming? 👀`,
 			templateSVG: (
 				<>
@@ -605,7 +605,7 @@ const Dashboard = () => {
 		},
 		{
 			templateName: `signupTemplate`,
-			templateTitle: `Sign Up`,
+			templateTitle: `Sign Up Form`,
 			templateDescription: `Let's go! 📝`,
 			templateSVG: (
 				<>
@@ -635,8 +635,8 @@ const Dashboard = () => {
 						Create New
 						<div className="ml-1 md:ml-2 h-fit items-center badge badge-accent font-black text-xl md:text-2xl lg:text-3xl py-0 md:py-1 rounded-lg content-center shadow-md">
 							Formsify
-						</div>{" "}
-						Form
+						</div>
+						&nbsp;Form
 					</h1>
 
 					<div className="mt-1 sm:mt-1 flex flex-col sm:flex-row justify-around sm:justify-center items-center w-full px-2 sm:px-4">
