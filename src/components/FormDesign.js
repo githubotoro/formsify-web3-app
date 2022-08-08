@@ -29,6 +29,8 @@ import { ContractFactory } from "ethers";
 
 import { useNavigate } from "react-router-dom";
 
+import CryptoJS from "crypto-js";
+
 const FormDesign = () => {
 	const navigate = useNavigate();
 
