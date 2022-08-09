@@ -28,6 +28,8 @@ import { UserContext } from "../helper/UserContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import CryptoJS from "crypto-js";
+
 const FormFill = () => {
 	const { User, setUser } = useContext(UserContext);
 
@@ -207,7 +209,12 @@ const FormFill = () => {
 					const AllowedTotalFills = parseInt(
 						fetchedFormParameters[5]
 					);
-					const PublicKey = fetchedFormParameters[6].toString();
+
+					const ownerDocRef = doc(db, "users", FORM_OWNER);
+					const ownerDoc = await getDoc(ownerDocRef);
+					const ownerData = ownerDoc.data();
+					const cryptoKey =
+						ownerData[FORM_ID].formParameters.formCryptoKey;
 
 					setFormParameters({
 						fills: Fills,
@@ -215,13 +222,13 @@ const FormFill = () => {
 						startTime: StartTime,
 						endTime: EndTime,
 						allowedTotalFills: AllowedTotalFills,
-						publicKey: PublicKey,
+						cryptoKey: cryptoKey,
 					});
 
-					const rawFormHead = fetchedFormParameters[7];
+					const rawFormHead = fetchedFormParameters[6];
 					setFormHead(JSON.parse(rawFormHead));
 
-					const rawFields = fetchedFormParameters[8];
+					const rawFields = fetchedFormParameters[7];
 					setFields(JSON.parse(rawFields));
 
 					setIsLoading(false);
@@ -306,23 +313,27 @@ const FormFill = () => {
 	}, []);
 
 	useEffect(() => {
-		if (isFormDeployed !== undefined) {
-			setFormParameters({
-				fills: 0,
-				maxFills: User[FORM_ID].formParameters.formMaxFills,
-				startTime: User[FORM_ID].formParameters.formStartTime,
-				endTime: User[FORM_ID].formParameters.formEndTime,
-				allowedTotalFills:
-					User[FORM_ID].formParameters.formAllowedTotalFills,
-				publicKey: User[FORM_ID].formParameters.formPublicKey,
-			});
+		const settingParameters = async () => {
+			if (isFormDeployed !== undefined) {
+				setFormParameters({
+					fills: 0,
+					maxFills: User[FORM_ID].formParameters.formMaxFills,
+					startTime: User[FORM_ID].formParameters.formStartTime,
+					endTime: User[FORM_ID].formParameters.formEndTime,
+					allowedTotalFills:
+						User[FORM_ID].formParameters.formAllowedTotalFills,
+					cryptoKey: User[FORM_ID].formParameters.formCryptoKey,
+				});
 
-			setFormTheme(User[FORM_ID].formTheme);
-			setFormHead(User[FORM_ID].formHead);
-			setFields(User[FORM_ID].fields);
+				setFormTheme(User[FORM_ID].formTheme);
+				setFormHead(User[FORM_ID].formHead);
+				setFields(User[FORM_ID].fields);
 
-			setIsLoading(false);
-		}
+				setIsLoading(false);
+			}
+		};
+
+		settingParameters();
 	}, [User]);
 
 	const formLoader = () => {
@@ -691,9 +702,108 @@ const FormFill = () => {
 		return true;
 	};
 
+	const [submitted, setSubmitted] = useState("pending");
+
+	useEffect(() => {
+		if (submitted !== undefined) {
+			toast.update("submittingResponse", {
+				render: (
+					<div className="flex flex-col font-bold items-center justify-center">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							className="h-6 w-6 stroke-success"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							strokeWidth={3}
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+							/>
+						</svg>
+						<div>
+							Response has been&nbsp;
+							<span className="font-black">Submitted.</span>
+						</div>
+					</div>
+				),
+
+				autoClose: 1500,
+				closeOnClick: true,
+				progressClassName: "border-4 border-success",
+			});
+			setSubmitted("pending");
+		}
+
+		if (submitted === "error") {
+			toast.update("submittingResponse", {
+				render: (
+					<div className="flex flex-col font-bold items-center justify-center">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							className="h-6 w-6 stroke-error"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							strokeWidth={3}
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+							/>
+						</svg>
+						<div>
+							<span className="font-black">
+								Something went Wrong!
+							</span>
+						</div>
+					</div>
+				),
+
+				autoClose: 1500,
+				closeOnClick: true,
+				progressClassName: "border-4 border-error",
+			});
+			setSubmitted("pending");
+		}
+	}, [submitted]);
+
 	const submitResponse = async () => {
 		if (isFormFilled()) {
 			try {
+				toast(
+					<div className="flex flex-col font-bold items-center justify-center">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							className="h-6 w-6 stroke-neutral animate-spin"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							strokeWidth={3}
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+							/>
+						</svg>
+						<div>
+							Submitting Response
+							<br />
+							<span className="font-black">Please Wait...</span>
+						</div>
+					</div>,
+					{
+						closeOnClick: false,
+						autoClose: false,
+						toastId: "submittingResponse",
+						progressClassName: "border-4 border-neutral",
+					}
+				);
+
 				const userSigner = formProvider.getSigner();
 				const userFormsifyContract = new ethers.Contract(
 					formAddress,
@@ -701,11 +811,20 @@ const FormFill = () => {
 					signer
 				);
 
-				const addResponse = await userFormsifyContract.addRecord(
-					JSON.stringify(responses)
+				const encryptedResponse = CryptoJS.AES.encrypt(
+					JSON.stringify(responses),
+					formParameters.cryptoKey
 				);
+
+				const addResponse = await userFormsifyContract.addRecord(
+					encryptedResponse.toString()
+				);
+
 				await addResponse.wait();
+
+				setSubmitted("success");
 			} catch (err) {
+				setSubmitted("error");
 				console.log(err);
 			}
 		} else {

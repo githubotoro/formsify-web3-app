@@ -3,6 +3,8 @@ import validator from "validator";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import uuid from "react-uuid";
+
 import { current, success } from "daisyui/src/colors";
 import { useState, useEffect, useContext } from "react";
 import TextareaAutosize from "react-textarea-autosize";
@@ -95,8 +97,7 @@ const FormDesign = () => {
 		formAllowedTotalFills: INFINITE,
 		formStartTime: formatDate(defaultTime),
 		formEndTime: formatDate(defaultTime),
-		formPublicKey: "some public key",
-		formPrivateKey: "some private key",
+		formCryptoKey: uuid(),
 	});
 
 	const [formDeployed, setFormDeployed] = useState(false);
@@ -317,7 +318,7 @@ const FormDesign = () => {
 					getUnixTimestampStartTime(),
 					getUnixTimestampEndTime(),
 					formParameters.formAllowedTotalFills,
-					formParameters.formPublicKey,
+
 					JSON.stringify(formHead),
 					JSON.stringify(fields)
 				);
@@ -1036,7 +1037,6 @@ const FormDesign = () => {
 	};
 
 	const getAddFieldMenu = (index) => {
-		let tempCounter = 0;
 		return (
 			<>
 				<center>

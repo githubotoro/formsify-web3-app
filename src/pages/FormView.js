@@ -28,6 +28,8 @@ import { UserContext } from "../helper/UserContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import CryptoJS from "crypto-js";
+
 const FormView = () => {
 	const { User, setUser } = useContext(UserContext);
 
@@ -64,10 +66,6 @@ const FormView = () => {
 				const userDocRef = doc(db, "users", address);
 				const userDoc = await getDoc(userDocRef);
 				setUser(userDoc.data());
-
-				for (let i = 0; i < responses.length; i++) {
-					console.log(responses[i].fillData);
-				}
 			} else {
 				toast(
 					<div className="flex flex-col font-bold items-center justify-center">
@@ -119,7 +117,9 @@ const FormView = () => {
 					const AllowedTotalFills = parseInt(
 						fetchedFormParameters[5]
 					);
-					const PublicKey = fetchedFormParameters[6].toString();
+
+					const cryptoKey =
+						User[FORM_ID].formParameters.formCryptoKey;
 
 					setFormParameters({
 						fills: Fills,
@@ -127,18 +127,16 @@ const FormView = () => {
 						startTime: StartTime,
 						endTime: EndTime,
 						allowedTotalFills: AllowedTotalFills,
-						publicKey: PublicKey,
-						privateKey: User[FORM_ID].formParameters.formPrivateKey,
+						cryptoKey: cryptoKey,
 					});
 
-					const rawFormHead = fetchedFormParameters[7];
+					const rawFormHead = fetchedFormParameters[6];
 					setFormHead(JSON.parse(rawFormHead));
 
-					const rawFields = fetchedFormParameters[8];
+					const rawFields = fetchedFormParameters[7];
 					setFields(JSON.parse(rawFields));
 
 					setResponses(fetchedRecords);
-					console.log(fetchedRecords);
 
 					setIsLoading(false);
 				} catch (err) {
@@ -241,6 +239,70 @@ const FormView = () => {
 		dark: "bg-success",
 	};
 
+	const getResponseFields = (res) => {
+		const encryptedResponse = res;
+		const decryptedResponse = CryptoJS.AES.decrypt(
+			encryptedResponse,
+			formParameters.cryptoKey
+		);
+		const decryptedJSON = JSON.parse(
+			decryptedResponse.toString(CryptoJS.enc.Utf8)
+		);
+
+		return (
+			<>
+				{decryptedJSON.map((decryptedRes, decryptedResIndex) => {
+					return <td>{decryptedRes}</td>;
+				})}
+			</>
+		);
+	};
+
+	const viewResponses = () => {
+		return (
+			<>
+				<div classname="overflow-x-auto">
+					<table className="table table-compact w-full">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Address</th>
+								<th>Timestamp</th>
+								{fields.map((field, fieldIndex) => {
+									return <th>Field-{fieldIndex + 1}</th>;
+								})}
+							</tr>
+						</thead>
+						<tbody>
+							{responses.map((response, responseIndex) => {
+								return (
+									<tr>
+										<th>{responseIndex + 1}</th>
+										<td>{response.fillAddress}</td>
+										<td>
+											{response.fillTimestamp.toString()}
+										</td>
+										{getResponseFields(response.fillData)}
+									</tr>
+								);
+							})}
+						</tbody>
+						<tfoot>
+							<tr>
+								<th></th>
+								<th>Address</th>
+								<th>Timestamp</th>
+								{fields.map((field, fieldIndex) => {
+									return <th>Field-{fieldIndex + 1}</th>;
+								})}
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			</>
+		);
+	};
+
 	return (
 		<>
 			<div data-theme={formTheme}>
@@ -253,10 +315,8 @@ const FormView = () => {
 						{" "}
 						<div className="flex flex-col w-full min-h-screen bg-gradient-to-br from-primary to-accent">
 							<center>
-								<div className="pt-5 pb-5 max-w-[75rem]">
-									{/* {formHeader()} */}
-									<div className="blankDiv pt-4" />
-									{/* {formHeader()} */}
+								<div className="p-5 w-full overflow-auto">
+									{viewResponses()}
 								</div>
 							</center>
 						</div>
