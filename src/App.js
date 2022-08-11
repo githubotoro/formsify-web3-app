@@ -74,9 +74,7 @@ function App() {
 										<>
 											<div data-theme={FormsifyTheme}>
 												<Navigation />
-											</div>
-											<div data-theme={FormsifyTheme}>
-												<Dashboard />{" "}
+												<Dashboard />
 											</div>
 										</>
 									}
@@ -87,7 +85,6 @@ function App() {
 										<>
 											<div data-theme={FormsifyTheme}>
 												<Navigation />
-
 												<Error />
 											</div>
 										</>
@@ -114,8 +111,10 @@ function App() {
 									path="/:formOwner/:formId/responses"
 									element={
 										<>
-											<Navigation />
-											<FormView />
+											<div data-theme={FormsifyTheme}>
+												<Navigation />
+												<FormView />
+											</div>
 										</>
 									}
 								/>

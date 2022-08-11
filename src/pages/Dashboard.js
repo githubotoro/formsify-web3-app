@@ -142,7 +142,7 @@ const Dashboard = () => {
 					</svg>
 					<div>
 						Form has been&nbsp;
-						<span className="font-black">deleted!</span>
+						<span className="font-black">Deleted!</span>
 					</div>
 				</div>,
 				{
