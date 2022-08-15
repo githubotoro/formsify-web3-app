@@ -2,8 +2,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import uuid from "react-uuid";
+
 import { useNavigate } from "react-router-dom";
-import { useAccount } from "wagmi";
+
+import { useState, useEffect } from "react";
 import { useContext } from "react";
 
 import { db } from "../firebase-config";
@@ -17,49 +19,13 @@ import {
 	deleteField,
 	updateDoc,
 } from "firebase/firestore";
-import { useState, useEffect } from "react";
+
+import { useAccount } from "wagmi";
 import { UserContext } from "../helper/UserContext";
 
 const Dashboard = () => {
 	const { User, setUser } = useContext(UserContext);
 	const { address, isConnected } = useAccount();
-
-	// const [user, setUser] = useState({
-	// 	deployedForms: {
-	// 		deployedFormId: {
-	// 			formAddress: "",
-	// 			formChain: "",
-	// 			extraInfo: "",
-	// 		},
-	// 	},
-	// 	undeployedForms: {
-	// 		undeployedFormId: {
-	// 			headersInfo: "",
-	// 			extraInfo: "",
-	// 		},
-	// 	},
-	// });
-
-	// useEffect(() => {
-	// 	const getUserData = async () => {
-	// 		if (address !== undefined) {
-	// 			const userDocRef = doc(db, "users", address);
-	// 			const userDoc = await getDoc(userDocRef);
-
-	// 			if (userDoc.data() === undefined) {
-	// 				const createUserDoc = await setDoc(
-	// 					doc(db, "users", address),
-	// 					user
-	// 				);
-	// 			} else {
-	// 				setUser(userDoc.data());
-	// 				console.log(user);
-	// 			}
-	// 		}
-	// 	};
-
-	// 	getUserData();
-	// }, [address]);
 
 	const navigate = useNavigate();
 
@@ -102,16 +68,6 @@ const Dashboard = () => {
 					>
 						Create
 					</a>
-					{/* <a
-						className={`w-3/12 px-14 tab btn btn-sm btn-accent shadow-md capitalize font-black rounded-lg text-xl md:text-2xl py-1 h-fit hover:bg-primary hover:text-primary-content border-none ${
-							activeTab === "statsTab" ? "tab-active" : ""
-						}`}
-						onClick={() => {
-							setActiveTab(`statsTab`);
-						}}
-					>
-						Stats
-					</a> */}
 				</div>
 			</>
 		);
@@ -213,14 +169,6 @@ const Dashboard = () => {
 										{Object.keys(User).map((key, index) => (
 											<div key={index}>
 												<div className="w-full card px-2 py-2 bg-base-200 shadow-md">
-													{/* <div className="template-svg">
-													<figure className="pt-0">
-														{
-															formTemplate.templateSVG
-														}
-													</figure>
-												</div> */}
-
 													<div className="template-body">
 														<div className="card-body p-1 md:p-3">
 															<h2 className="font-black capitalize text-lg md:text-2xl lg:text-3xl items-center justify-self-center">
@@ -239,23 +187,6 @@ const Dashboard = () => {
 																		</span>
 																		&nbsp;Deployed
 																	</h2>
-
-																	{/* <h2 className="w-full font-bold text-sm md:text-lg lg:text-xl">
-																		<span className="font-black">
-																			Contract
-																			Address:
-																		</span>
-																		&nbsp;
-																		{
-																			JSON.parse(
-																				User[
-																					key
-																				]
-																					.deployTransaction
-																			)
-																				.creates
-																		}
-																	</h2> */}
 																</>
 															) : (
 																<>
@@ -448,15 +379,6 @@ const Dashboard = () => {
 																							Cancel
 																						</label>
 																					</div>
-
-																					{/* <div className="modal-action">
-																						<label
-																							for="deleteFormModal"
-																							className="btn"
-																						>
-																							Yay!
-																						</label>
-																					</div> */}
 																				</div>
 																			</div>
 																		</>

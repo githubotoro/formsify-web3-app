@@ -1,25 +1,20 @@
-import logo from "./logo.svg";
 import "./App.css";
+import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { injectStyle } from "react-toastify/dist/inject-style";
 
 import Dashboard from "./pages/Dashboard";
-import Home from "./pages/Home";
-import Navigation from "./components/Navigation";
+import FormFill from "./pages/FormFill";
+import FormView from "./pages/FormView";
 import Error from "./pages/Error";
-import Footer from "./components/Footer";
-import FormHeader from "./components/FormHeader";
-import Tabs from "./components/Tabs";
-import FormDesign from "./components/FormDesign";
+import Home from "./pages/Home";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navigation from "./components/Navigation";
+import Footer from "./components/Footer";
+import FormDesign from "./components/FormDesign";
 
 import { ThemeContext } from "./helper/ThemeContext";
 import { UserContext } from "./helper/UserContext";
-import { useState } from "react";
-
-import FormFill from "./pages/FormFill";
-
-import { injectStyle } from "react-toastify/dist/inject-style";
-import FormView from "./pages/FormView";
 
 function App() {
 	if (typeof window !== "undefined") {
@@ -36,12 +31,6 @@ function App() {
 					value={{ FormsifyTheme, setFormsifyTheme }}
 				>
 					<BrowserRouter>
-						{/* <>
-							<div data-theme={FormsifyTheme}>
-								<Navigation />
-							</div>
-						</> */}
-
 						<Routes>
 							<>
 								<Route
@@ -120,9 +109,7 @@ function App() {
 								/>
 							</>
 						</Routes>
-						{/* <Footer /> */}
 					</BrowserRouter>
-					{/* </div> */}
 				</ThemeContext.Provider>
 			</UserContext.Provider>
 		</>

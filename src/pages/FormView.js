@@ -1,5 +1,3 @@
-import FillRender from "../components/FillRender";
-
 import { useAccount, useSigner } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
@@ -451,7 +449,7 @@ const FormView = () => {
 	const legends = () => {
 		return (
 			<>
-				<div className="card w-full bg-base-200 shadow-xl sticky">
+				<div className="card w-full bg-base-200 shadow-xl border-t-8 border-error">
 					<div className="card-body px-5 py-3">
 						<h2 className="uppercase card-title font-black drop-shadow-sm">
 							<svg
@@ -495,11 +493,11 @@ const FormView = () => {
 	const countdownCard = () => {
 		return (
 			<>
-				<div className="card w-full bg-base-200 shadow-xl">
+				<div className="card w-full bg-base-200 shadow-xl border-t-8 border-warning">
 					<div className="flex card-body px-5 py-3 w-full justify-center items-center">
-						<div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black">
+						<div className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-black">
 							Form&nbsp;
-							<div className="py-0 px-1 sm:px-2 badge badge-info font-extrabold tracking-wide text-xl sm:text-2xl md:text-3xl lg:text-4xl rounded-lg shadow-md w-fit h-fit items-center">
+							<div className="py-0 px-1 sm:px-2 badge badge-error font-extrabold tracking-wide text-2xl sm:text-2xl md:text-3xl lg:text-4xl rounded-lg shadow-md w-fit h-fit items-center">
 								Closes
 							</div>
 							&nbsp;In
@@ -514,7 +512,7 @@ const FormView = () => {
 	const infoCard = () => {
 		return (
 			<>
-				<div className="card w-full bg-base-200 shadow-xl sticky">
+				<div className="card w-full bg-base-200 shadow-xl border-t-8 border-info">
 					<div className="card-body px-5 py-3">
 						<h2 className="uppercase card-title font-black drop-shadow-sm">
 							<svg
@@ -685,6 +683,100 @@ const FormView = () => {
 		);
 	};
 
+	const formHasEndedCard = () => {
+		return (
+			<>
+				<div className="card w-full bg-base-200 shadow-xl border-t-8 border-warning">
+					<div className="flex card-body py-3 w-full justify-center items-center">
+						<div className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-black">
+							Form has&nbsp;
+							<div className="py-0 px-1 sm:px-2 badge badge-error font-extrabold tracking-wide text-2xl sm:text-2xl md:text-3xl lg:text-4xl rounded-lg shadow-md w-fit h-fit items-center">
+								Ended!
+							</div>
+						</div>
+					</div>
+				</div>
+			</>
+		);
+	};
+
+	const showFormLink = () => {
+		return (
+			<>
+				<div className="card w-full bg-base-200 shadow-xl border-t-8 border-success">
+					<h1 className="flex flex-row p-2 font-black text-xl md:text-2xl lg:text-3xl justify-center items-center">
+						Form
+						<div className="ml-1 md:ml-2 h-fit items-center badge badge-primary font-black text-xl md:text-2xl lg:text-3xl py-0 md:py-1 rounded-lg content-center shadow-md">
+							Link
+						</div>
+						&nbsp;:&nbsp;
+						<div>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								className="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 drop-shadow-sm fill-secondary stroke-secondary hover:fill-accent hover:stroke-accent cursor-pointer sha"
+								viewBox="0 0 20 20"
+								fill="currentColor"
+								onClick={() => {
+									navigator.clipboard.writeText(
+										`https://formsify.vercel.app/${FORM_OWNER}/${FORM_ID}`
+									);
+
+									toast(
+										<div className="flex flex-col font-bold items-center justify-center">
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												className="h-6 w-6 stroke-info"
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke="currentColor"
+												strokeWidth={3}
+											>
+												<path
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+												/>
+											</svg>
+											<div>
+												Form Link has been&nbsp;
+												<span className="font-black">
+													Copied.
+												</span>
+											</div>
+										</div>,
+										{
+											progressClassName:
+												"border-4 border-info",
+										}
+									);
+								}}
+							>
+								<path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
+								<path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
+							</svg>
+						</div>
+						&nbsp;
+						<a
+							href={`https://formsify.vercel.app/${FORM_OWNER}/${FORM_ID}`}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								className="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 drop-shadow-sm fill-accent stroke-accent hover:fill-primary hover:stroke-primary cursor-pointer"
+								viewBox="0 0 20 20"
+								fill="currentColor"
+							>
+								<path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+								<path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+							</svg>
+						</a>
+					</h1>
+				</div>
+			</>
+		);
+	};
+
 	return (
 		<>
 			<div>
@@ -700,8 +792,12 @@ const FormView = () => {
 									{hasFormEnded === false ? (
 										<>{countdownCard()}</>
 									) : (
-										<>Form has ended</>
+										<>{formHasEndedCard()}</>
 									)}
+
+									<div className="blankDiv pt-4" />
+
+									{showFormLink()}
 
 									<div className="blankDiv pt-4" />
 

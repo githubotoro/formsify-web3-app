@@ -50,18 +50,6 @@ const FormDesign = () => {
 
 	const [imageUrl, setImageUrl] = useState("");
 
-	// const setBanner = () => {
-	// 	return (
-	// 		<>
-	// 			<ImageUpload setUrl={setImageUrl} />
-	// 			ImageUrl :{" "}
-	// 			<a href={imageUrl} target="_blank" rel="noopener noreferrer">
-	// 				{imageUrl}
-	// 			</a>
-	// 		</>
-	// 	);
-	// };
-
 	// ===============
 	// FORM PARAMETERS
 	// ===============
@@ -220,9 +208,6 @@ const FormDesign = () => {
 				} catch (err) {
 					console.log(err);
 				}
-
-				// if (User[params.id] === undefined) {
-				// }
 			}
 		};
 
@@ -325,20 +310,22 @@ const FormDesign = () => {
 
 				toast(
 					<div className="flex flex-col font-bold items-center justify-center">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="h-6 w-6 stroke-neutral animate-spin"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-							strokeWidth={3}
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-							/>
-						</svg>
+						<div className="animate-spin">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								className="h-6 w-6 stroke-neutral scale-x-[-1]"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								strokeWidth={3}
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+								/>
+							</svg>
+						</div>
 						<div>
 							Deploying Form
 							<br />
@@ -414,20 +401,22 @@ const FormDesign = () => {
 			try {
 				toast(
 					<div className="flex flex-col font-bold items-center justify-center">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="h-6 w-6 stroke-neutral"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-							strokeWidth={3}
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-							/>
-						</svg>
+						<div className="animate-spin">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								className="h-6 w-6 stroke-neutral scale-x-[-1]"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								strokeWidth={3}
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+								/>
+							</svg>
+						</div>
 						<div>
 							<span className="font-black">Saving</span>&nbsp;
 							Draft...
@@ -2136,6 +2125,386 @@ const FormDesign = () => {
 		);
 	};
 
+	const renderDesign = () => {
+		return (
+			<>
+				<div className="pt-5 pb-5 max-w-[75rem]">
+					{formSettingsMenu()}
+
+					<div className="blankDiv pt-4" />
+
+					{formTimings()}
+
+					{/* <div className="blankDiv pt-4" />
+
+						{formBanner()} */}
+
+					<div className="blankDiv pt-4" />
+
+					{formHeader()}
+
+					<div className="blankDiv pt-4" />
+
+					{formUI()}
+
+					<div className="blankDiv pt-4" />
+
+					{saveAndDeploy()}
+
+					{/* {setBanner()} */}
+				</div>
+			</>
+		);
+	};
+
+	const infoCard = (formAddress, FORM_OWNER, FORM_ID, formTransaction) => {
+		return (
+			<>
+				<div className="card w-full bg-base-200 shadow-xl sticky">
+					<div className="card-body px-5 py-3">
+						<h2 className="uppercase card-title font-black drop-shadow-sm">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								className="h-6 w-6 fill-base-content"
+								viewBox="0 0 20 20"
+								fill="currentColor"
+							>
+								<path
+									fillRule="evenodd"
+									d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+									clipRule="evenodd"
+								/>
+							</svg>
+							Form Info
+						</h2>
+						<div className="flex justify-start flex-col">
+							<div className="flex justify-start items-center">
+								<div className="capitalize badge badge-primary font-bold shadow-md w-fit h-fit">
+									Address
+								</div>
+								&nbsp;<span className="font-black">:</span>
+								&nbsp;
+								<span className="font-bold truncate">
+									{formAddress}
+								</span>
+								&nbsp;
+								<div>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-6 w-6 fill-secondary stroke-secondary hover:fill-accent hover:stroke-accent cursor-pointer"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+										onClick={() => {
+											navigator.clipboard.writeText(
+												`${formAddress}`
+											);
+
+											toast(
+												<div className="flex flex-col font-bold items-center justify-center">
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														className="h-6 w-6 stroke-info"
+														fill="none"
+														viewBox="0 0 24 24"
+														stroke="currentColor"
+														strokeWidth={3}
+													>
+														<path
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+														/>
+													</svg>
+													<div>
+														Form Address has
+														been&nbsp;
+														<span className="font-black">
+															Copied.
+														</span>
+													</div>
+												</div>,
+												{
+													progressClassName:
+														"border-4 border-info",
+												}
+											);
+										}}
+									>
+										<path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
+										<path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
+									</svg>
+								</div>
+								&nbsp;
+								<a
+									href={`https://mumbai.polygonscan.com/address/${formAddress}`}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-6 w-6 fill-accent stroke-accent hover:fill-primary hover:stroke-primary cursor-pointer"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+									>
+										<path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+										<path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+									</svg>
+								</a>
+							</div>
+
+							<div className="mt-[0.1rem] flex justify-start items-center">
+								<div className="capitalize badge badge-primary font-bold shadow-md w-fit h-fit">
+									Transaction
+								</div>
+								&nbsp;<span className="font-black">:</span>
+								&nbsp;
+								<span className="font-bold truncate">
+									{formTransaction}
+								</span>
+								&nbsp;
+								<div>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-6 w-6 fill-secondary stroke-secondary hover:fill-accent hover:stroke-accent cursor-pointer"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+										onClick={() => {
+											navigator.clipboard.writeText(
+												`${formTransaction}`
+											);
+
+											toast(
+												<div className="flex flex-col font-bold items-center justify-center">
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														className="h-6 w-6 stroke-info"
+														fill="none"
+														viewBox="0 0 24 24"
+														stroke="currentColor"
+														strokeWidth={3}
+													>
+														<path
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+														/>
+													</svg>
+													<div>
+														Transaction Hash has
+														been&nbsp;
+														<span className="font-black">
+															Copied.
+														</span>
+													</div>
+												</div>,
+												{
+													progressClassName:
+														"border-4 border-info",
+												}
+											);
+										}}
+									>
+										<path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
+										<path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
+									</svg>
+								</div>
+								&nbsp;
+								<a
+									href={`https://mumbai.polygonscan.com/tx/${formTransaction}`}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-6 w-6 fill-accent stroke-accent hover:fill-primary hover:stroke-primary cursor-pointer"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+									>
+										<path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+										<path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+									</svg>
+								</a>
+							</div>
+
+							<div className="mt-[0.1rem] flex justify-start items-center">
+								<div className="capitalize badge badge-primary font-bold shadow-md w-fit h-fit">
+									Id
+								</div>
+								&nbsp;<span className="font-black">:</span>
+								&nbsp;
+								<span className="font-bold truncate">
+									{FORM_ID}
+								</span>
+								&nbsp;
+								<div>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-6 w-6 fill-secondary stroke-secondary hover:fill-accent hover:stroke-accent cursor-pointer sha"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+										onClick={() => {
+											navigator.clipboard.writeText(
+												`${FORM_ID}`
+											);
+
+											toast(
+												<div className="flex flex-col font-bold items-center justify-center">
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														className="h-6 w-6 stroke-info"
+														fill="none"
+														viewBox="0 0 24 24"
+														stroke="currentColor"
+														strokeWidth={3}
+													>
+														<path
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+														/>
+													</svg>
+													<div>
+														Form ID has been&nbsp;
+														<span className="font-black">
+															Copied.
+														</span>
+													</div>
+												</div>,
+												{
+													progressClassName:
+														"border-4 border-info",
+												}
+											);
+										}}
+									>
+										<path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
+										<path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
+									</svg>
+								</div>
+								&nbsp;
+								<a
+									href={`https://formsify.vercel.app/${FORM_OWNER}/${FORM_ID}`}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-6 w-6 fill-accent stroke-accent hover:fill-primary hover:stroke-primary cursor-pointer"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+									>
+										<path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+										<path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+									</svg>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</>
+		);
+	};
+
+	const formHasBeenDeployed = () => {
+		const deployInfo = JSON.parse(User[params.id].deployTransaction);
+
+		return (
+			<>
+				<div className="py-3 px-3 space-y-3">
+					<div className="w-full bg-base-200 shadow-xl rounded-xl">
+						<h1 className="p-2 font-black text-xl md:text-2xl lg:text-3xl">
+							Your form has been
+							<div className="ml-1 md:ml-2 h-fit items-center badge badge-info font-black text-xl md:text-2xl lg:text-3xl py-0 md:py-1 rounded-lg content-center shadow-md">
+								Deployed!
+							</div>
+							&nbsp;🥳
+						</h1>
+					</div>
+
+					<div className="w-full bg-base-200 shadow-xl rounded-xl">
+						<h1 className="flex flex-row p-2 font-black text-xl md:text-2xl lg:text-3xl justify-center items-center">
+							Form
+							<div className="ml-1 md:ml-2 h-fit items-center badge badge-primary font-black text-xl md:text-2xl lg:text-3xl py-0 md:py-1 rounded-lg content-center shadow-md">
+								Link
+							</div>
+							&nbsp;:&nbsp;
+							<div>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									className="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 drop-shadow-sm fill-secondary stroke-secondary hover:fill-accent hover:stroke-accent cursor-pointer sha"
+									viewBox="0 0 20 20"
+									fill="currentColor"
+									onClick={() => {
+										navigator.clipboard.writeText(
+											`https://formsify.vercel.app/${deployInfo.from}/${params.id}`
+										);
+
+										toast(
+											<div className="flex flex-col font-bold items-center justify-center">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													className="h-6 w-6 stroke-info"
+													fill="none"
+													viewBox="0 0 24 24"
+													stroke="currentColor"
+													strokeWidth={3}
+												>
+													<path
+														strokeLinecap="round"
+														strokeLinejoin="round"
+														d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+													/>
+												</svg>
+												<div>
+													Form Link has been&nbsp;
+													<span className="font-black">
+														Copied.
+													</span>
+												</div>
+											</div>,
+											{
+												progressClassName:
+													"border-4 border-info",
+											}
+										);
+									}}
+								>
+									<path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
+									<path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
+								</svg>
+							</div>
+							&nbsp;
+							<a
+								href={`https://formsify.vercel.app/${deployInfo.from}/${params.id}`}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									className="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 drop-shadow-sm fill-accent stroke-accent hover:fill-primary hover:stroke-primary cursor-pointer"
+									viewBox="0 0 20 20"
+									fill="currentColor"
+								>
+									<path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+									<path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+								</svg>
+							</a>
+						</h1>
+					</div>
+
+					<div>
+						{infoCard(
+							deployInfo.creates,
+							deployInfo.from,
+							params.id,
+							deployInfo.hash
+						)}
+					</div>
+				</div>
+			</>
+		);
+	};
+
 	return (
 		<>
 			<div
@@ -2143,45 +2512,36 @@ const FormDesign = () => {
 				className="flex flex-col w-full min-h-screen bg-gradient-to-br from-primary to-accent"
 			>
 				<center>
-					<div className="pt-5 pb-5 max-w-[75rem]">
-						{formSettingsMenu()}
-
-						<div className="blankDiv pt-4" />
-
-						{formTimings()}
-
-						{/* <div className="blankDiv pt-4" />
-
-						{formBanner()} */}
-
-						<div className="blankDiv pt-4" />
-
-						{formHeader()}
-
-						<div className="blankDiv pt-4" />
-
-						{formUI()}
-
-						<div className="blankDiv pt-4" />
-
-						{saveAndDeploy()}
-
-						<ToastContainer
-							toastClassName={({ type }) =>
-								contextClass[type || "default"] +
-								"relative flex flex-col p-1 rounded-xl justify-between overflow-hidden cursor-pointer m-2 bg-base-100 ease-in-out"
-							}
-							bodyClassName={() =>
-								"text-md block p-1 text-base-content justify-center items-center"
-							}
-							position="top-right"
-							autoClose={1200}
-							closeButton={false}
-							hideProgressBar={true}
-						/>
-
-						{/* {setBanner()} */}
-					</div>
+					{isConnected ? (
+						<>
+							{User[params.id] !== undefined ? (
+								<>
+									{User[params.id].formDeployed ? (
+										<>{formHasBeenDeployed()}</>
+									) : (
+										<>{renderDesign()}</>
+									)}
+								</>
+							) : (
+								<>{renderDesign()}</>
+							)}
+						</>
+					) : (
+						<>{renderDesign()}</>
+					)}
+					<ToastContainer
+						toastClassName={({ type }) =>
+							contextClass[type || "default"] +
+							"relative flex flex-col p-1 rounded-xl justify-between overflow-hidden cursor-pointer m-2 bg-base-100 ease-in-out"
+						}
+						bodyClassName={() =>
+							"text-md block p-1 text-base-content justify-center items-center"
+						}
+						position="top-right"
+						autoClose={1200}
+						closeButton={false}
+						hideProgressBar={true}
+					/>
 				</center>
 			</div>
 		</>

@@ -1,5 +1,3 @@
-import FillRender from "../components/FillRender";
-
 import { useAccount, useSigner } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
@@ -61,6 +59,15 @@ const FormFill = () => {
 	const location = useLocation();
 
 	const isFormDeployed = params.preview;
+
+	const [currTime, setCurrTime] = useState({
+		days: 0,
+		hours: 0,
+		minutes: 0,
+		seconds: 60,
+	});
+
+	const [hasFormEnded, setHasFormEnded] = useState(false);
 
 	const formsifyCustomRainbowConnectWallet = () => {
 		return (
@@ -230,6 +237,31 @@ const FormFill = () => {
 
 					const rawFields = fetchedFormParameters[7];
 					setFields(JSON.parse(rawFields));
+
+					// =================
+					// SETTING COUNTDOWN
+					// =================
+
+					const currDate = new Date();
+					const endDate = new Date(EndTime * 1000);
+
+					let timeDiff = (endDate - currDate) / 1000;
+
+					if (timeDiff <= 0) {
+						setHasFormEnded(true);
+					} else {
+						setCurrTime((prevTime) => ({
+							...prevTime,
+							days: Math.floor(timeDiff / 86400),
+							hours: Math.floor(timeDiff / 3600) % 24,
+							minutes: Math.floor(timeDiff / 60) % 60,
+							seconds: Math.floor(timeDiff % 60),
+						}));
+					}
+
+					// =================
+					// SETTING COUNTDOWN
+					// =================
 
 					setIsLoading(false);
 				} catch (err) {
@@ -711,7 +743,7 @@ const FormFill = () => {
 					<div className="flex flex-col font-bold items-center justify-center">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							className="h-6 w-6 stroke-success"
+							className="h-6 w-6 stroke-success "
 							fill="none"
 							viewBox="0 0 24 24"
 							stroke="currentColor"
@@ -723,6 +755,7 @@ const FormFill = () => {
 								d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
 							/>
 						</svg>
+
 						<div>
 							Response has been&nbsp;
 							<span className="font-black">Submitted.</span>
@@ -774,22 +807,41 @@ const FormFill = () => {
 	const submitResponse = async () => {
 		if (isFormFilled()) {
 			try {
+				const userSigner = formProvider.getSigner();
+				const userFormsifyContract = new ethers.Contract(
+					formAddress,
+					FORM_ABI,
+					signer
+				);
+
+				const encryptedResponse = CryptoJS.AES.encrypt(
+					JSON.stringify(responses),
+					formParameters.cryptoKey
+				);
+
+				const addResponse = await userFormsifyContract.addRecord(
+					encryptedResponse.toString()
+				);
+
 				toast(
 					<div className="flex flex-col font-bold items-center justify-center">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="h-6 w-6 stroke-neutral animate-spin"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-							strokeWidth={3}
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-							/>
-						</svg>
+						<div className="animate-spin">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								className="h-6 w-6 stroke-neutral scale-x-[-1]"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								strokeWidth={3}
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+								/>
+							</svg>
+						</div>
+
 						<center>
 							<div>
 								Submitting Response
@@ -806,22 +858,6 @@ const FormFill = () => {
 						toastId: "submittingResponse",
 						progressClassName: "border-4 border-neutral",
 					}
-				);
-
-				const userSigner = formProvider.getSigner();
-				const userFormsifyContract = new ethers.Contract(
-					formAddress,
-					FORM_ABI,
-					signer
-				);
-
-				const encryptedResponse = CryptoJS.AES.encrypt(
-					JSON.stringify(responses),
-					formParameters.cryptoKey
-				);
-
-				const addResponse = await userFormsifyContract.addRecord(
-					encryptedResponse.toString()
 				);
 
 				await addResponse.wait();
@@ -946,6 +982,382 @@ const FormFill = () => {
 		dark: "bg-success",
 	};
 
+	// ==============
+	// FORM COUNTDOWN
+	// ==============
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			let newCurrTime = currTime;
+			if (currTime.seconds === 0) {
+				if (currTime.minutes === 0) {
+					if (currTime.hours === 0) {
+						if (currTime.days === 0) {
+							setHasFormEnded(true);
+						} else {
+							setCurrTime((prevTime) => ({
+								...prevTime,
+								days: currTime.days - 1,
+								hours: 23,
+								minutes: 59,
+								seconds: 59,
+							}));
+						}
+					} else {
+						setCurrTime((prevTime) => ({
+							...prevTime,
+							hours: currTime.hours - 1,
+							minutes: 59,
+							seconds: 59,
+						}));
+					}
+				} else {
+					setCurrTime((prevTime) => ({
+						...prevTime,
+						minutes: currTime.minutes - 1,
+						seconds: 59,
+					}));
+				}
+			} else {
+				setCurrTime((prevTime) => ({
+					...prevTime,
+					seconds: currTime.seconds - 1,
+				}));
+			}
+		}, 1000);
+
+		return () => clearInterval(interval);
+	}, [currTime]);
+
+	const formCountdown = () => {
+		return (
+			<>
+				<div className="grid grid-flow-col gap-2 sm:gap-3 md:gap-4 lg:gap-5 text-center auto-cols-max">
+					<div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
+						<span className="countdown font-mono text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+							<span
+								style={{ "--value": `${currTime.days}` }}
+							></span>
+						</span>
+						days
+					</div>
+					<div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content items-center justify-center">
+						<span className="countdown font-mono text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+							<span
+								style={{ "--value": `${currTime.hours}` }}
+							></span>
+						</span>
+						hours
+					</div>
+					<div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
+						<span className="countdown font-mono text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+							<span
+								style={{ "--value": `${currTime.minutes}` }}
+							></span>
+						</span>
+						min
+					</div>
+					<div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
+						<span className="countdown font-mono text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+							<span
+								style={{ "--value": `${currTime.seconds}` }}
+							></span>
+						</span>
+						sec
+					</div>
+				</div>
+			</>
+		);
+	};
+
+	const countdownCard = () => {
+		return (
+			<>
+				<div className="card w-11/12 bg-base-300 shadow-xl border-t-8 border-warning">
+					<div className="flex card-body py-3 w-full justify-center items-center">
+						<div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black">
+							Form&nbsp;
+							<div className="py-0 px-1 sm:px-2 badge badge-error font-extrabold tracking-wide text-xl sm:text-2xl md:text-3xl lg:text-4xl rounded-lg shadow-md w-fit h-fit items-center">
+								Closes
+							</div>
+							&nbsp;In
+						</div>
+						<center>{formCountdown()}</center>
+					</div>
+				</div>
+			</>
+		);
+	};
+
+	const formHasEndedCard = () => {
+		return (
+			<>
+				<div className="card w-11/12 bg-base-300 shadow-xl border-t-8 border-warning">
+					<div className="flex card-body py-3 w-full justify-center items-center">
+						<div className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-black">
+							Form has&nbsp;
+							<div className="py-0 px-1 sm:px-2 badge badge-error font-extrabold tracking-wide text-2xl sm:text-2xl md:text-3xl lg:text-4xl rounded-lg shadow-md w-fit h-fit items-center">
+								Ended!
+							</div>
+						</div>
+					</div>
+				</div>
+			</>
+		);
+	};
+
+	// ==============
+	// FORM COUNTDOWN
+	// ==============
+
+	const infoCard = () => {
+		return (
+			<>
+				<div className="card w-11/12 bg-base-300 shadow-xl border-t-8 border-info">
+					<div className="card-body px-5 py-3">
+						<h2 className="uppercase card-title font-black drop-shadow-sm">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								className="h-6 w-6 fill-base-content"
+								viewBox="0 0 20 20"
+								fill="currentColor"
+							>
+								<path
+									fillRule="evenodd"
+									d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+									clipRule="evenodd"
+								/>
+							</svg>
+							Form Info
+						</h2>
+						<div className="flex justify-start flex-col">
+							<div className="flex justify-start items-center">
+								<div className="capitalize badge badge-primary font-bold shadow-md w-fit h-fit">
+									Address
+								</div>
+								&nbsp;<span className="font-black">:</span>
+								&nbsp;
+								<span className="font-bold truncate">
+									{formAddress}
+								</span>
+								&nbsp;
+								<div>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-6 w-6 fill-secondary stroke-secondary hover:fill-accent hover:stroke-accent cursor-pointer"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+										onClick={() => {
+											navigator.clipboard.writeText(
+												`${formAddress}`
+											);
+
+											toast(
+												<div className="flex flex-col font-bold items-center justify-center">
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														className="h-6 w-6 stroke-info"
+														fill="none"
+														viewBox="0 0 24 24"
+														stroke="currentColor"
+														strokeWidth={3}
+													>
+														<path
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+														/>
+													</svg>
+													<div>
+														Form Address has
+														been&nbsp;
+														<span className="font-black">
+															Copied.
+														</span>
+													</div>
+												</div>,
+												{
+													progressClassName:
+														"border-4 border-info",
+												}
+											);
+										}}
+									>
+										<path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
+										<path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
+									</svg>
+								</div>
+								&nbsp;
+								<a
+									href={`https://mumbai.polygonscan.com/address/${formAddress}`}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-6 w-6 fill-accent stroke-accent hover:fill-primary hover:stroke-primary cursor-pointer"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+									>
+										<path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+										<path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+									</svg>
+								</a>
+							</div>
+
+							<div className="mt-[0.1rem] flex justify-start items-center">
+								<div className="capitalize badge badge-primary font-bold shadow-md w-fit h-fit">
+									Owner
+								</div>
+								&nbsp;<span className="font-black">:</span>
+								&nbsp;
+								<span className="font-bold truncate">
+									{FORM_OWNER}
+								</span>
+								&nbsp;
+								<div>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-6 w-6 fill-secondary stroke-secondary hover:fill-accent hover:stroke-accent cursor-pointer sha"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+										onClick={() => {
+											navigator.clipboard.writeText(
+												`${FORM_OWNER}`
+											);
+
+											toast(
+												<div className="flex flex-col font-bold items-center justify-center">
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														className="h-6 w-6 stroke-info"
+														fill="none"
+														viewBox="0 0 24 24"
+														stroke="currentColor"
+														strokeWidth={3}
+													>
+														<path
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+														/>
+													</svg>
+													<div>
+														Owner address has
+														been&nbsp;
+														<span className="font-black">
+															Copied.
+														</span>
+													</div>
+												</div>,
+												{
+													progressClassName:
+														"border-4 border-info",
+												}
+											);
+										}}
+									>
+										<path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
+										<path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
+									</svg>
+								</div>
+								&nbsp;
+								<a
+									href={`https://mumbai.polygonscan.com/address/${FORM_OWNER}`}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-6 w-6 fill-accent stroke-accent hover:fill-primary hover:stroke-primary cursor-pointer"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+									>
+										<path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+										<path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+									</svg>
+								</a>
+							</div>
+
+							<div className="mt-[0.1rem] flex justify-start items-center">
+								<div className="capitalize badge badge-primary font-bold shadow-md w-fit h-fit">
+									Id
+								</div>
+								&nbsp;<span className="font-black">:</span>
+								&nbsp;
+								<span className="font-bold truncate">
+									{FORM_ID}
+								</span>
+								&nbsp;
+								<div>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-6 w-6 fill-secondary stroke-secondary hover:fill-accent hover:stroke-accent cursor-pointer sha"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+										onClick={() => {
+											navigator.clipboard.writeText(
+												`${FORM_ID}`
+											);
+
+											toast(
+												<div className="flex flex-col font-bold items-center justify-center">
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														className="h-6 w-6 stroke-info"
+														fill="none"
+														viewBox="0 0 24 24"
+														stroke="currentColor"
+														strokeWidth={3}
+													>
+														<path
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+														/>
+													</svg>
+													<div>
+														Form ID has been&nbsp;
+														<span className="font-black">
+															Copied.
+														</span>
+													</div>
+												</div>,
+												{
+													progressClassName:
+														"border-4 border-info",
+												}
+											);
+										}}
+									>
+										<path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
+										<path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
+									</svg>
+								</div>
+								&nbsp;
+								<a
+									href={`https://formsify.vercel.app/${FORM_OWNER}/${FORM_ID}`}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-6 w-6 fill-accent stroke-accent hover:fill-primary hover:stroke-primary cursor-pointer"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+									>
+										<path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+										<path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+									</svg>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</>
+		);
+	};
+
 	return (
 		<>
 			<div data-theme={formTheme}>
@@ -953,18 +1365,32 @@ const FormFill = () => {
 					<>{formLoader()}</>
 				) : (
 					<>
-						{" "}
 						<div className="flex flex-col w-full min-h-screen bg-gradient-to-br from-primary to-accent">
 							<center>
 								<div className="bg-base-200 py-4">
 									{formsifyCustomRainbowConnectWallet()}
 								</div>
 								<div className="pt-5 pb-5 max-w-[75rem]">
-									{formHeader()}
-									<div className="blankDiv pt-4" />
-									{viewForm()}
-									<div className="blankDiv pt-4" />
-									{submitForm()}
+									{hasFormEnded === false ? (
+										<>
+											{infoCard()}
+											<div className="blankDiv pt-4" />
+											{countdownCard()}
+											<div className="blankDiv pt-4" />
+											{formHeader()}
+											<div className="blankDiv pt-4" />
+											{viewForm()}
+											<div className="blankDiv pt-4" />
+											{submitForm()}
+										</>
+									) : (
+										<>
+											{infoCard()}
+											<div className="blankDiv pt-4" />
+											{formHasEndedCard()}
+										</>
+									)}
+
 									{/* {formParameters.fills} */}
 								</div>
 							</center>
