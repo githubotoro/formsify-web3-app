@@ -301,22 +301,29 @@ const Home = () => {
 								&nbsp;via Calendly!
 							</div>
 							<div className="-mt-3 space-x-3 space-y-3">
-								<a
-									className="btn btn-accent btn-sm h-fit w-fit px-1 lg:px-3 py-1 lg:py-2 text-lg lg:text-xl items-center rounded-xl lg:rounded-2xl font-black shadow-lg"
-									href="https://calendly.com/uday-khokhariya/30min"
-									target="_blank"
-									rel="noreferrer"
-									type="button"
+								<button
+									className="btn btn-accent btn-sm h-fit w-fit px-3 lg:px-4 py-1 lg:py-2 text-lg lg:text-xl items-center rounded-xl lg:rounded-2xl font-black shadow-lg"
+									onClick={() => {
+										window.open(
+											"https://calendly.com/uday-khokhariya/30min",
+											"_blank"
+										);
+									}}
 								>
 									Schedule a Meeting
-								</a>
-								<a
-									className="btn btn-accent btn-sm h-fit w-fit px-1 lg:px-3 py-1 lg:py-2 text-lg lg:text-xl items-center rounded-xl lg:rounded-2xl font-black shadow-lg"
-									href="mailto: formsifying@gmail.com"
-									type="button"
+								</button>
+
+								<button
+									className="btn btn-accent btn-sm h-fit w-fit px-3 lg:px-4 py-1 lg:py-2 text-lg lg:text-xl items-center rounded-xl lg:rounded-2xl font-black shadow-lg"
+									onClick={() => {
+										window.open(
+											"mailto: formsifying@gmail.com",
+											"_blank"
+										);
+									}}
 								>
 									Send Email
-								</a>
+								</button>
 							</div>
 						</div>
 					</div>

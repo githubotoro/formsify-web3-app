@@ -24,6 +24,8 @@ import {
 	setDoc,
 	updateDoc,
 } from "firebase/firestore";
+import { storage } from "../firebase-config";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 import MainFormsifyContract from "../helper/Formsify.json";
 import { useAccount, useWebSocketProvider, useSigner } from "wagmi";
@@ -48,7 +50,10 @@ const FormDesign = () => {
 	const CONTRACT_ABI = MainFormsifyContract.abi;
 	const CONTRACT_BYTECODE = MainFormsifyContract.bytecode;
 
-	const [imageUrl, setImageUrl] = useState("");
+	const [bannerUpload, setBannerUpload] = useState(null);
+	const [bannerUrl, setBannerUrl] = useState(
+		`https://firebasestorage.googleapis.com/v0/b/formsify-d4175.appspot.com/o/images%2Fformsify-illustration.png?alt=media&token=c75ca9ed-1f3b-4b85-be68-cf80512e21f2`
+	);
 
 	// ===============
 	// FORM PARAMETERS
@@ -175,6 +180,7 @@ const FormDesign = () => {
 						setFormHead(User[params.id].formHead);
 						setFormParameters(User[params.id].formParameters);
 						setFormTheme(User[params.id].formTheme);
+						setBannerUrl(User[params.id].bannerUrl);
 
 						toast.update("loadingForm", {
 							render: (
@@ -438,6 +444,7 @@ const FormDesign = () => {
 						fields: fields,
 						formHead: formHead,
 						lastSaved: Date(),
+						bannerUrl: bannerUrl,
 					},
 				});
 
@@ -532,26 +539,12 @@ const FormDesign = () => {
 		}
 	};
 
-	// console.log("Form Type is", location.state.formType);
-
-	// console.log(
-	// 	`Got form id from useParams as ${params.id} and its type is ${params.formType}`
-	// );
-
-	// console.log(params.formType);
-
-	// const templateFormFields = {
-	// 	blankTemplate: [...fields],
-	// };
-
-	// const setTemplateFormFields = (formType) => {};
-
 	// Form Fields
 	const [fields, setFields] = useState([
 		{
-			fieldText: `Untitled Field`,
+			fieldText: `Question Goes Here... ✍️`,
 			fieldType: `shortResponse`,
-			required: `true`,
+			required: true,
 		},
 	]);
 
@@ -594,14 +587,14 @@ const FormDesign = () => {
 			`${fieldTypes[fieldTypeIndex]}` === "checkBoxes"
 		) {
 			newField = {
-				fieldText: `Untitled Field`,
+				fieldText: `Question Goes Here... ✍️`,
 				fieldType: `${fieldTypes[fieldTypeIndex]}`,
-				choices: [{ choiceText: `Option` }],
+				choices: [{ choiceText: `Option 👋` }],
 				required: true,
 			};
 		} else {
 			newField = {
-				fieldText: `Untitled Field`,
+				fieldText: `Question Goes Here... ✍️`,
 				fieldType: `${fieldTypes[fieldTypeIndex]}`,
 				required: true,
 			};
@@ -617,7 +610,7 @@ const FormDesign = () => {
 				<>
 					<input
 						type="text"
-						placeholder="Type Your Response..."
+						placeholder="Response Goes Here... 📋"
 						className="mt-1 font-semibold text-lg w-full input border-4 input-bordered"
 					/>
 				</>
@@ -627,7 +620,7 @@ const FormDesign = () => {
 				<>
 					<textarea
 						className="mt-1 font-semibold text-lg w-full textarea border-4 textarea-bordered"
-						placeholder="Type Your Response..."
+						placeholder="Response Goes Here... 📋"
 					></textarea>
 				</>
 			);
@@ -840,7 +833,8 @@ const FormDesign = () => {
 					/>
 				</svg>
 				<div>
-					Choice has been <span className="font-black">deleted</span>
+					Choice has been&nbsp;
+					<span className="font-black">Deleted.</span>
 				</div>
 			</div>,
 			{
@@ -852,7 +846,7 @@ const FormDesign = () => {
 	const addChoice = (index) => {
 		let newFields = [...fields];
 		let newChoice = {
-			choiceText: `Option`,
+			choiceText: `Option 👋`,
 		};
 		newFields[index].choices.push(newChoice);
 		setFields(newFields);
@@ -874,7 +868,7 @@ const FormDesign = () => {
 				</svg>
 				<div>
 					New Choice has been{" "}
-					<span className="font-black">added</span>
+					<span className="font-black">Added.</span>
 				</div>
 			</div>,
 			{
@@ -1119,44 +1113,52 @@ const FormDesign = () => {
 				<div
 					className={`btn-group${field.fieldType}${index} text-lg font-bold pt-3 space-x-3 items-center justify-center flex`}
 				>
-					<label
-						for={`adjustmentsModal${field.fieldType}${index}`}
-						className="btn btn-sm h-fit w-fit px-3 py-1 shadow-sm border-4 border-primary shadow-primary-focus"
+					<div
+						className="tooltip font-bold"
+						data-tip="Customize Field"
 					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="h-6 w-6 stroke-neutral-content"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-							strokeWidth={2.5}
+						<label
+							for={`adjustmentsModal${field.fieldType}${index}`}
+							className="btn btn-sm h-fit w-fit px-3 py-1 shadow-sm border-4 border-primary shadow-primary-focus"
 						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-							/>
-						</svg>
-					</label>
-					<label
-						for={`addFieldModal${field.fieldType}${index}`}
-						className="btn btn-sm h-fit w-fit px-3 py-1 shadow-sm border-4 border-secondary shadow-secondary-focus"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="h-6 w-6 stroke-neutral-content"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-							strokeWidth={2.5}
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								className="h-6 w-6 stroke-neutral-content"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								strokeWidth={2.5}
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+								/>
+							</svg>
+						</label>
+					</div>
+
+					<div className="tooltip font-bold" data-tip="Add Field">
+						<label
+							for={`addFieldModal${field.fieldType}${index}`}
+							className="btn btn-sm h-fit w-fit px-3 py-1 shadow-sm border-4 border-secondary shadow-secondary-focus"
 						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-							/>
-						</svg>
-					</label>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								className="h-6 w-6 stroke-neutral-content"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								strokeWidth={2.5}
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+								/>
+							</svg>
+						</label>
+					</div>
 					{/* <button
 						className="btn bg-secondary shadow-md border-4 border-neutral"
 						onClick={() => {
@@ -1178,27 +1180,29 @@ const FormDesign = () => {
 							/>
 						</svg>
 					</button> */}
-					<button
-						className="btn btn-sm h-fit w-fit px-3 py-1 shadow-sm border-4 border-accent shadow-accent-focus"
-						onClick={() => {
-							deleteField(index);
-						}}
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="h-6 w-6 stroke-neutral-content"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-							strokeWidth={2.5}
+					<div className="tooltip font-bold" data-tip="Delete Field">
+						<button
+							className="btn btn-sm h-fit w-fit px-3 py-1 shadow-sm border-4 border-accent shadow-accent-focus"
+							onClick={() => {
+								deleteField(index);
+							}}
 						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-							/>
-						</svg>
-					</button>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								className="h-6 w-6 stroke-neutral-content"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								strokeWidth={2.5}
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+								/>
+							</svg>
+						</button>
+					</div>
 				</div>
 
 				{/* ADD FIELD MODAL */}
@@ -1424,25 +1428,27 @@ const FormDesign = () => {
 		return (
 			<>
 				<div className="dropdown dropdown-hover font-bold">
-					<label
-						tabIndex="0"
-						className="btn btn-sm h-fit w-fit px-3 py-1 capitalize font-black text-lg border-4 border-neutral-content shadow-sm shadow-neutral-focus"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="h-6 w-6 stroke-neutral-content"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-							strokeWidth={2}
+					<div className="tooltip font-bold" data-tip="Change Theme">
+						<label
+							tabIndex="0"
+							className="btn btn-sm h-fit w-fit px-3 py-1 capitalize font-black text-lg border-4 border-neutral-content shadow-sm shadow-neutral-focus"
 						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
-							/>
-						</svg>
-					</label>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								className="h-6 w-6 stroke-neutral-content"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								strokeWidth={2}
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
+								/>
+							</svg>
+						</label>
+					</div>
 					<ul
 						tabIndex="0"
 						className="dropdown-content font-black menu p-2 shadow bg-base-100 rounded-box w-48 capitalize overflow-y-scroll h-60"
@@ -1477,53 +1483,57 @@ const FormDesign = () => {
 			<>
 				{selectTheme()}
 				&nbsp;&nbsp;
-				<button
-					className="btn btn-sm h-fit w-fit px-3 py-1 capitalize font-black text-lg border-4 border-neutral-content shadow-sm shadow-neutral-focus"
-					onClick={() => {
-						addField(-1, `shortResponse`);
-					}}
-				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						className="h-6 w-6 stroke-neutral-content"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-						strokeWidth={2}
+				<div className="tooltip font-bold" data-tip="Add Field">
+					<button
+						className="btn btn-sm h-fit w-fit px-3 py-1 capitalize font-black text-lg border-4 border-neutral-content shadow-sm shadow-neutral-focus"
+						onClick={() => {
+							addField(-1, `shortResponse`);
+						}}
 					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z"
-						/>
-					</svg>
-				</button>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							className="h-6 w-6 stroke-neutral-content"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							strokeWidth={2}
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z"
+							/>
+						</svg>
+					</button>
+				</div>
 				&nbsp;&nbsp;
 				{/* FORM SETTINGS */}
-				<label
-					for="formSettingsModal"
-					className="btn btn-sm h-fit w-fit px-3 py-1 capitalize font-black text-lg border-4 border-neutral-content shadow-sm shadow-neutral-focus"
-				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						className="h-6 w-6 stroke-neutral-content"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-						strokeWidth={2}
+				<div className="tooltip font-bold" data-tip="Settings">
+					<label
+						for="formSettingsModal"
+						className="btn btn-sm h-fit w-fit px-3 py-1 capitalize font-black text-lg border-4 border-neutral-content shadow-sm shadow-neutral-focus"
 					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-						/>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-						/>
-					</svg>
-				</label>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							className="h-6 w-6 stroke-neutral-content"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							strokeWidth={2}
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+							/>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+							/>
+						</svg>
+					</label>
+				</div>
 				<input
 					type="checkbox"
 					id="formSettingsModal"
@@ -1619,25 +1629,27 @@ const FormDesign = () => {
 				{/* FORM SETTINGS */}
 				&nbsp;&nbsp;
 				{/* FORM INFO */}
-				<label
-					for="formInfoModal"
-					className="btn btn-sm h-fit w-fit px-3 py-1 capitalize font-black text-lg border-4 border-neutral-content shadow-sm shadow-neutral-focus"
-				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						className="h-6 w-6 stroke-neutral-content"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-						strokeWidth={2}
+				<div className="tooltip font-bold" data-tip="Info">
+					<label
+						for="formInfoModal"
+						className="btn btn-sm h-fit w-fit px-3 py-1 capitalize font-black text-lg border-4 border-neutral-content shadow-sm shadow-neutral-focus"
 					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-						/>
-					</svg>
-				</label>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							className="h-6 w-6 stroke-neutral-content"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							strokeWidth={2}
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+							/>
+						</svg>
+					</label>
+				</div>
 				<input
 					type="checkbox"
 					id="formInfoModal"
@@ -1748,63 +1760,66 @@ const FormDesign = () => {
 				</div>
 				{/* FORM INFO */}
 				&nbsp;&nbsp;
-				<button
-					className="btn btn-sm h-fit w-fit px-3 py-1 capitalize font-black text-lg border-4 border-neutral-content shadow-sm shadow-neutral-focus"
-					onClick={async () => {
-						if (isConnected) {
-							saveContract().then((response) => {
-								navigate(`/${address}/${params.id}/false`);
-							});
-						} else {
-							toast(
-								<div className="flex flex-col font-bold items-center justify-center">
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										className="h-6 w-6 stroke-error"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-										strokeWidth={3}
-									>
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-										/>
-									</svg>
-									<div>
-										<span className="font-black">
-											Wallet Not Connected!
-										</span>
-									</div>
-								</div>,
-								{
-									progressClassName: "border-4 border-error",
-								}
-							);
-						}
-					}}
-				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						className="h-6 w-6 stroke-neutral-content"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-						strokeWidth={2}
+				<div className="tooltip font-bold" data-tip="Preview">
+					<button
+						className="btn btn-sm h-fit w-fit px-3 py-1 capitalize font-black text-lg border-4 border-neutral-content shadow-sm shadow-neutral-focus"
+						onClick={async () => {
+							if (isConnected) {
+								saveContract().then((response) => {
+									navigate(`/${address}/${params.id}/false`);
+								});
+							} else {
+								toast(
+									<div className="flex flex-col font-bold items-center justify-center">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											className="h-6 w-6 stroke-error"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+											strokeWidth={3}
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+											/>
+										</svg>
+										<div>
+											<span className="font-black">
+												Wallet Not Connected!
+											</span>
+										</div>
+									</div>,
+									{
+										progressClassName:
+											"border-4 border-error",
+									}
+								);
+							}
+						}}
 					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-						/>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-						/>
-					</svg>
-				</button>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							className="h-6 w-6 stroke-neutral-content"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							strokeWidth={2}
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+							/>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+							/>
+						</svg>
+					</button>
+				</div>
 			</>
 		);
 	};
@@ -1819,8 +1834,8 @@ const FormDesign = () => {
 
 	const [formHead, setFormHead] = useState([
 		{
-			formTitle: `Untitled Form`,
-			formDescription: `Form Description`,
+			formTitle: `Untitled Form 👀`,
+			formDescription: `👉 Form Description`,
 		},
 	]);
 
@@ -2050,24 +2065,146 @@ const FormDesign = () => {
 		dark: "bg-success",
 	};
 
+	const uploadBanner = () => {
+		if (!isConnected) {
+			toast(
+				<div className="flex flex-col font-bold items-center justify-center">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						className="h-6 w-6 stroke-error"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						strokeWidth={3}
+					>
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+						/>
+					</svg>
+					<div>
+						<span className="font-black">
+							Wallet Not Connected!
+						</span>
+						&nbsp;
+					</div>
+				</div>,
+				{
+					progressClassName: "border-4 border-error",
+				}
+			);
+			return;
+		}
+
+		if (bannerUpload === null) {
+			toast(
+				<div className="flex flex-col font-bold items-center justify-center">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						className="h-6 w-6 stroke-error"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						strokeWidth={3}
+					>
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+						/>
+					</svg>
+					<div>
+						<span className="font-black">Banner Not Selected!</span>
+						&nbsp;
+					</div>
+				</div>,
+				{
+					progressClassName: "border-4 border-error",
+				}
+			);
+			return;
+		}
+
+		if (bannerUpload.size > 3072000) {
+			toast(
+				<div className="flex flex-col font-bold items-center justify-center">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						className="h-6 w-6 stroke-error"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						strokeWidth={3}
+					>
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+						/>
+					</svg>
+					<div>
+						Image size must be&nbsp;
+						<span className="font-black">less than 3 MB!</span>
+					</div>
+				</div>,
+				{
+					progressClassName: "border-4 border-error",
+				}
+			);
+			return;
+		}
+
+		const imageRef = ref(storage, `images/${params.id}`);
+		uploadBytes(imageRef, bannerUpload).then((res) => {
+			setBannerUrl(
+				`https://firebasestorage.googleapis.com/v0/b/formsify-d4175.appspot.com/o/images%2F${
+					res.metadata.name
+				}?alt=media&token=${Date.now()}`
+			);
+			toast(
+				<div className="flex flex-col font-bold items-center justify-center">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						className="h-6 w-6 stroke-info"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						strokeWidth={3}
+					>
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+						/>
+					</svg>
+					<div>
+						Banner has been&nbsp;
+						<span className="font-black">Changed.</span>
+					</div>
+				</div>,
+				{
+					progressClassName: "border-4 border-info",
+				}
+			);
+		});
+	};
+
 	const formBanner = () => {
 		return (
 			<>
 				<center>
-					<div className="card w-11/12 bg-base-300 shadow-xl border-t-8 border-secondary-focus ">
+					<div className="card w-11/12 bg-base-300 shadow-xl border-t-8 border-secondary-focus">
 						<div className="card-body p-0">
-							<h2 className="card-title font-black text-2xl md:text-3xl lg:text-4xl justify-start focus:border-b-8">
-								{/* <img
-									className="h-72 w-full object-cover"
-									src={}
-								/> */}
+							<h2 className="card-title font-black text-2xl md:text-3xl lg:text-4xl justify-start focus:border-b-8 bg-primary">
+								<img
+									className="h-72 w-full object-contain"
+									src={bannerUrl}
+								/>
 							</h2>
 							<h2 className="card-title font-bold text-lg md:text-xl lg:text-2xl justify-center -mt-20 pb-4">
 								{/* CHANGE BANNER */}
 								<label
-									// onClick={() => {
-									// 	deployContract();
-									// }}
 									for="formBannerModal"
 									className="btn btn-sm h-fit w-fit px-3 py-1 capitalize font-black text-lg border-4 border-neutral-content shadow-sm shadow-neutral-focus"
 								>
@@ -2089,7 +2226,11 @@ const FormDesign = () => {
 
 										<div className="flex justify-center">
 											<input
-												// onChange={handleChange}
+												onChange={(e) => {
+													setBannerUpload(
+														e.target.files[0]
+													);
+												}}
 												className="flex py-2 text-md justify-center items-center"
 												type="file"
 												id="file"
@@ -2100,9 +2241,9 @@ const FormDesign = () => {
 
 										<div className="modal-action">
 											<label
-												// onClick={() => {
-												// 	handleSubmit();
-												// }}
+												onClick={() => {
+													uploadBanner();
+												}}
 												for={`formBannerModal`}
 												className="btn btn-sm btn-primary font-bold text-lg capitalize"
 											>
@@ -2135,9 +2276,9 @@ const FormDesign = () => {
 
 					{formTimings()}
 
-					{/* <div className="blankDiv pt-4" />
+					<div className="blankDiv pt-4" />
 
-						{formBanner()} */}
+					{formBanner()}
 
 					<div className="blankDiv pt-4" />
 
@@ -2150,8 +2291,6 @@ const FormDesign = () => {
 					<div className="blankDiv pt-4" />
 
 					{saveAndDeploy()}
-
-					{/* {setBanner()} */}
 				</div>
 			</>
 		);
@@ -2505,11 +2644,209 @@ const FormDesign = () => {
 		);
 	};
 
+	// =============
+	// FORM TEMPLATE
+	// =============
+
+	const templateFormBanner = {
+		blankTemplate: `https://firebasestorage.googleapis.com/v0/b/formsify-d4175.appspot.com/o/images%2Fblank.svg?alt=media&token=2114ff9f-f7c9-4447-9955-8637f2d7dbd0`,
+		meetTemplate: `https://firebasestorage.googleapis.com/v0/b/formsify-d4175.appspot.com/o/images%2Fmeet.svg?alt=media&token=595dd776-3f21-4c51-b607-ed31b2c1ae91`,
+		contactTemplate: `https://firebasestorage.googleapis.com/v0/b/formsify-d4175.appspot.com/o/images%2Fcontact.svg?alt=media&token=e93f49a8-a080-421c-9345-81b4ab215ea1`,
+		partyTemplate: `https://firebasestorage.googleapis.com/v0/b/formsify-d4175.appspot.com/o/images%2Fparty.svg?alt=media&token=e962885f-7155-4053-8ce5-5fdbe17e18e8`,
+		rsvpTemplate: `https://firebasestorage.googleapis.com/v0/b/formsify-d4175.appspot.com/o/images%2Frsvp.svg?alt=media&token=348b8c0c-efc8-4571-9d8e-37a62a2d4fb4`,
+		signUpTemplate: `https://firebasestorage.googleapis.com/v0/b/formsify-d4175.appspot.com/o/images%2FsignUp.svg?alt=media&token=9f923204-b16a-4e47-8b60-a1169ffad6c0`,
+	};
+
+	const templateFormHead = {
+		blankTemplate: [
+			{
+				formTitle: `Untitled Form 👀`,
+				formDescription: `👉 Form Description`,
+			},
+		],
+		meetTemplate: [
+			{
+				formTitle: `Code Red! Code Red! Code Red! 🆘`,
+				formDescription: `👉 We need to meet and discuss some very important things. \n🌐 Fate of the world depends on us! \n📌 When are you available?`,
+			},
+		],
+		contactTemplate: [
+			{
+				formTitle: `We'll Contact You! 📬`,
+				formDescription: `👉 Let's keep in touch! \n📌 Share your contact details and one of our team members will reach out to you in coming days. `,
+			},
+		],
+		partyTemplate: [
+			{
+				formTitle: `It's Party Time Peeps! 🎉`,
+				formDescription: `👉 We are organizing a party at my place to celebrate our achievements so far! \n🥳 Register ASAP & be seeing yaaa!`,
+			},
+		],
+		rsvpTemplate: [
+			{
+				formTitle: `Hurry Up! 👀`,
+				formDescription: `👉 We are organizing an event in coming days. \n👋 Register ASAP & be seeing yaaa!`,
+			},
+		],
+		signUpTemplate: [
+			{
+				formTitle: `Let's get you Signed Up! 👋`,
+				formDescription: `👉 We are launching our product soon! \n📌 Sign Up & join the waitlist for early access. \n👀 Our early users might receive some special benefits, who knows! `,
+			},
+		],
+	};
+
+	const templateFormFields = {
+		blankTemplate: [...fields],
+		meetTemplate: [
+			{
+				fieldText: `Name 👋`,
+				fieldType: `shortResponse`,
+				required: true,
+			},
+			{
+				fieldText: `Email 📧`,
+				fieldType: `shortResponse`,
+				required: true,
+			},
+			{
+				fieldText: `Your Available Slot 📅`,
+				fieldType: `dateAndTime`,
+				required: true,
+			},
+			{
+				fieldText: `Meeting Platform 📡`,
+				fieldType: `multipleChoice`,
+				choices: [
+					{ choiceText: `Zoom` },
+					{ choiceText: `Google Meet` },
+					{ choiceText: `Microsoft Teams` },
+					{ choiceText: `Secret Hideout ` },
+				],
+				required: true,
+			},
+			{
+				fieldText: `Notes for the Meeting! 📌`,
+				fieldType: `longResponse`,
+				required: false,
+			},
+		],
+		contactTemplate: [
+			{
+				fieldText: `Name 👋`,
+				fieldType: `shortResponse`,
+				required: true,
+			},
+			{
+				fieldText: `Email 📧`,
+				fieldType: `shortResponse`,
+				required: true,
+			},
+			{
+				fieldText: `Address 🌐`,
+				fieldType: `longResponse`,
+				required: true,
+			},
+			{
+				fieldText: `Comments 📌`,
+				fieldType: `longResponse`,
+				required: false,
+			},
+		],
+		partyTemplate: [
+			{
+				fieldText: `Name 👋`,
+				fieldType: `shortResponse`,
+				required: true,
+			},
+			{
+				fieldText: `Email 📧`,
+				fieldType: `shortResponse`,
+				required: true,
+			},
+			{
+				fieldText: `What are you bringing along? 🧐`,
+				fieldType: `multipleChoice`,
+				choices: [
+					{ choiceText: `Enthusiasm 😎` },
+					{ choiceText: `Refreshments 🥤` },
+					{ choiceText: `Desserts 😋` },
+					{ choiceText: `Secret Gifts 🎁` },
+					{ choiceText: `Sorry! Won't be able to come... 🥺` },
+				],
+				required: true,
+			},
+			{
+				fieldText: `Comments 📌`,
+				fieldType: `longResponse`,
+				required: false,
+			},
+		],
+		rsvpTemplate: [
+			{
+				fieldText: `Name 👋`,
+				fieldType: `shortResponse`,
+				required: true,
+			},
+			{
+				fieldText: `Email 📧`,
+				fieldType: `shortResponse`,
+				required: true,
+			},
+			{
+				fieldText: `Address 🌐`,
+				fieldType: `longResponse`,
+				required: true,
+			},
+			{
+				fieldText: `Comments 📌`,
+				fieldType: `longResponse`,
+				required: false,
+			},
+		],
+		signUpTemplate: [
+			{
+				fieldText: `Name 👋`,
+				fieldType: `shortResponse`,
+				required: true,
+			},
+			{
+				fieldText: `Email 📧`,
+				fieldType: `shortResponse`,
+				required: true,
+			},
+			{
+				fieldText: `Contact 📞`,
+				fieldType: `shortResponse`,
+				required: true,
+			},
+			{
+				fieldText: `Comments 📌`,
+				fieldType: `longResponse`,
+				required: false,
+			},
+		],
+	};
+
+	useEffect(() => {
+		if (User[params.id] === undefined) {
+			const templateName = location.state.formType;
+
+			setBannerUrl(templateFormBanner[templateName]);
+			setFormHead(templateFormHead[templateName]);
+			setFields(templateFormFields[templateName]);
+		}
+	}, []);
+
+	// =============
+	// FORM TEMPLATE
+	// =============
+
 	return (
 		<>
 			<div
 				data-theme={formTheme}
-				className="flex flex-col w-full min-h-screen bg-gradient-to-br from-primary to-accent"
+				className="flex flex-col w-full min-h-screen bg-accent"
 			>
 				<center>
 					{isConnected ? (

@@ -526,7 +526,7 @@ const Dashboard = () => {
 			),
 		},
 		{
-			templateName: `signupTemplate`,
+			templateName: `signUpTemplate`,
 			templateTitle: `Sign Up Form`,
 			templateDescription: `Let's go! 📝`,
 			templateSVG: (
