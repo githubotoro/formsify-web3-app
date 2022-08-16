@@ -71,6 +71,8 @@ const FormFill = () => {
 
 	const [bannerUrl, setBannerUrl] = useState(null);
 
+	const [responseSuccess, setResponseSuccess] = useState(false);
+
 	// ========================
 	// UNIX TIMESTAMP FUNCTIONS
 	// ========================
@@ -690,10 +692,10 @@ const FormFill = () => {
 				<center>
 					<div className="card w-11/12 bg-base-300 shadow-xl border-t-8 border-secondary-focus ">
 						<div className="card-body px-4 py-3 md:px-5 md:py-4 lg:px-6 lg:py-5">
-							<h2 className="card-title font-black text-2xl md:text-3xl lg:text-4xl justify-start focus:border-b-8">
+							<h2 className="card-title font-black text-2xl md:text-3xl lg:text-4xl justify-start focus:border-b-8 whitespace-pre-wrap">
 								{formHead[0].formTitle}
 							</h2>
-							<h2 className="card-title font-bold text-lg md:text-xl lg:text-2xl justify-start">
+							<h2 className="card-title text-left items-start font-bold text-lg md:text-xl lg:text-2xl justify-start whitespace-pre-wrap">
 								{formHead[0].formDescription}
 							</h2>
 						</div>
@@ -762,7 +764,6 @@ const FormFill = () => {
 	};
 
 	const isFormFilled = () => {
-		console.log(fields);
 		for (let i = 0; i < fields.length; i++) {
 			if (fields[i].required === "true" || fields[i].required === true) {
 				if (
@@ -871,7 +872,7 @@ const FormFill = () => {
 	const submitResponse = async () => {
 		if (isFormFilled()) {
 			try {
-				const userSigner = formProvider.getSigner();
+				const userSigner = formProvider.getSigner(address);
 				const userFormsifyContract = new ethers.Contract(
 					formAddress,
 					FORM_ABI,
@@ -1465,6 +1466,23 @@ const FormFill = () => {
 		);
 	};
 
+	const responseSuccessCard = () => {
+		return (
+			<>
+				<div className="px-3 card w-full bg-base-300 shadow-xl border-t-8 border-primary-focus">
+					<div className="card-body p-0">
+						<h1 className="py-3 font-black text-xl md:text-2xl lg:text-3xl">
+							Response has been&nbsp;
+							<div className="ml-1 md:ml-2 h-fit items-center badge badge-success font-black text-xl md:text-2xl lg:text-3xl py-0 md:py-1 rounded-lg content-center shadow-md">
+								Submitted!
+							</div>
+						</h1>
+					</div>
+				</div>
+			</>
+		);
+	};
+
 	return (
 		<>
 			<div data-theme={formTheme}>
@@ -1480,17 +1498,28 @@ const FormFill = () => {
 								<div className="pt-5 pb-5 max-w-[75rem]">
 									{hasFormEnded === false ? (
 										<>
-											{infoCard()}
-											<div className="blankDiv pt-4" />
-											{countdownCard()}
-											<div className="blankDiv pt-4" />
-											{formBanner()}
-											<div className="blankDiv pt-4" />
-											{formHeader()}
-											<div className="blankDiv pt-4" />
-											{viewForm()}
-											<div className="blankDiv pt-4" />
-											{submitForm()}
+											{responseSuccess ? (
+												<>
+													{" "}
+													<div className="px-2">
+														{responseSuccessCard()}
+													</div>{" "}
+												</>
+											) : (
+												<>
+													{infoCard()}
+													<div className="blankDiv pt-4" />
+													{countdownCard()}
+													<div className="blankDiv pt-4" />
+													{formBanner()}
+													<div className="blankDiv pt-4" />
+													{formHeader()}
+													<div className="blankDiv pt-4" />
+													{viewForm()}
+													<div className="blankDiv pt-4" />
+													{submitForm()}
+												</>
+											)}
 										</>
 									) : (
 										<>

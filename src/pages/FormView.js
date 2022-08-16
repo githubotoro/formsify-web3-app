@@ -363,7 +363,34 @@ const FormView = () => {
 		dark: "bg-success",
 	};
 
-	const getResponseFields = (res) => {
+	const getResponseCell = (decryptedRes, decryptedResIndex) => {
+		let newDecryptedRes = decryptedRes;
+
+		if (Array.isArray(decryptedRes)) {
+			newDecryptedRes = "";
+
+			for (let j = 0; j < decryptedRes.length; j++) {
+				if (decryptedRes[j] === true) {
+					newDecryptedRes +=
+						fields[decryptedResIndex].choices[
+							j
+						].choiceText.toString();
+
+					if (j !== decryptedRes.length) {
+						newDecryptedRes += "\n";
+					}
+				}
+			}
+		}
+
+		return (
+			<>
+				<td className="whitespace-pre-wrap">{newDecryptedRes}</td>
+			</>
+		);
+	};
+
+	const getResponseFields = (res, resIndex) => {
 		const encryptedResponse = res;
 		const decryptedResponse = CryptoJS.AES.decrypt(
 			encryptedResponse,
@@ -376,7 +403,9 @@ const FormView = () => {
 		return (
 			<>
 				{decryptedJSON.map((decryptedRes, decryptedResIndex) => {
-					return <td>{decryptedRes}</td>;
+					return (
+						<>{getResponseCell(decryptedRes, decryptedResIndex)}</>
+					);
 				})}
 			</>
 		);
@@ -419,7 +448,8 @@ const FormView = () => {
 												)}
 											</td>
 											{getResponseFields(
-												response.fillData
+												response.fillData,
+												responseIndex
 											)}
 										</tr>
 									);
@@ -467,18 +497,18 @@ const FormView = () => {
 							</svg>
 							Legends
 						</h2>
-						<div className="flex justify-start flex-col">
+						<div className="flex flex-col">
 							{fields.map((field, fieldIndex) => {
 								return (
 									<>
-										<div className="flex justify-start items-center">
-											<div className="capitalize badge badge-secondary font-bold shadow-md">
+										<div className="flex">
+											<div className="capitalize badge badge-secondary w-fit h-fit font-bold shadow-md">
 												Field-{fieldIndex + 1}
 											</div>
 											&nbsp;&nbsp;
-											<span className="font-bold">
+											<div className="font-bold text-left">
 												{field.fieldText}
-											</span>
+											</div>
 										</div>
 									</>
 								);
@@ -777,6 +807,49 @@ const FormView = () => {
 		);
 	};
 
+	const getResponseTable = () => {
+		let responseTable = [];
+
+		for (let i = 0; i < responses.length; i++) {
+			let newRow = [];
+
+			const encryptedResponse = responses[i].fillData;
+			const decryptedResponse = CryptoJS.AES.decrypt(
+				encryptedResponse,
+				formParameters.cryptoKey
+			);
+			const decryptedJSON = JSON.parse(
+				decryptedResponse.toString(CryptoJS.enc.Utf8)
+			);
+
+			newRow.push(responses[i].fillId.toNumber() + 1);
+			newRow.push(responses[i].fillAddress);
+			newRow.push(getLocaleTimestamp(responses[i].fillTimestamp));
+
+			for (let j = 0; j < decryptedJSON.length; j++) {
+				if (Array.isArray(decryptedJSON[j])) {
+					let rowEle = "";
+
+					for (let k = 0; k < decryptedJSON[j].length; k++) {
+						if (decryptedJSON[j][k] === true) {
+							rowEle +=
+								fields[j].choices[k].choiceText.toString();
+							rowEle += " \n ";
+						}
+					}
+
+					newRow.push(rowEle);
+				} else {
+					newRow.push(decryptedJSON[j]);
+				}
+			}
+
+			responseTable.push(newRow);
+		}
+
+		console.log(responseTable);
+	};
+
 	return (
 		<>
 			<div>
@@ -810,6 +883,16 @@ const FormView = () => {
 									<div className="blankDiv pt-4" />
 
 									{viewResponses()}
+
+									<div className="blankDiv pt-4" />
+
+									<button
+										onClick={() => {
+											getResponseTable();
+										}}
+									>
+										Get Responses
+									</button>
 								</div>
 							</center>
 						</div>

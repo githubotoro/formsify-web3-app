@@ -61,7 +61,11 @@ const FormDesign = () => {
 
 	const INFINITE = 100000000;
 
-	const defaultTime = new Date();
+	const defaultStartTime = new Date();
+	const defaultEndTime = new Date(
+		defaultStartTime.getTime() + 60 * 60 * 24 * 1000
+	);
+
 	const formatDate = (DateObject) => {
 		let yearObject = DateObject.getFullYear().toString();
 		let monthObject = (DateObject.getMonth() + 1).toString();
@@ -88,8 +92,8 @@ const FormDesign = () => {
 	const [formParameters, setFormParameters] = useState({
 		formMaxFills: INFINITE,
 		formAllowedTotalFills: INFINITE,
-		formStartTime: formatDate(defaultTime),
-		formEndTime: formatDate(defaultTime),
+		formStartTime: formatDate(defaultStartTime),
+		formEndTime: formatDate(defaultEndTime),
 		formCryptoKey: uuid(),
 	});
 
@@ -700,7 +704,7 @@ const FormDesign = () => {
 												/>
 
 												<TextareaAutosize
-													className="label-text text-lg font-bold w-full appearance-none focus:outline-none focus:border-b-4 focus:border-primary overflow-hidden bg-transparent resize-none"
+													className="label-text text-lg font-bold w-full appearance-none focus:outline-none focus:border-b-4 focus:border-primary overflow-hidden bg-transparent resize-none whitespace-pre-wrap"
 													value={choice.choiceText}
 													onChange={(e) => {
 														changeChoiceText(
@@ -770,7 +774,7 @@ const FormDesign = () => {
 												/>
 
 												<TextareaAutosize
-													className="label-text text-lg font-bold w-full appearance-none focus:outline-none focus:border-b-4 focus:border-primary overflow-hidden bg-transparent resize-none"
+													className="label-text text-lg font-bold w-full appearance-none focus:outline-none focus:border-b-4 focus:border-primary overflow-hidden bg-transparent resize-none whitespace-pre-wrap"
 													value={choice.choiceText}
 													onChange={(e) => {
 														changeChoiceText(
@@ -1333,7 +1337,7 @@ const FormDesign = () => {
 											</div>
 											{index + 1}. &nbsp;
 											<TextareaAutosize
-												className="w-full appearance-none focus:outline-none focus:border-b-4 focus:border-primary overflow-hidden bg-transparent resize-none"
+												className="w-full appearance-none focus:outline-none focus:border-b-4 focus:border-primary overflow-hidden bg-transparent resize-none whitespace-pre-wrap"
 												value={field.fieldText}
 												onChange={(e) => {
 													changeFieldText(e, index);
@@ -1717,7 +1721,7 @@ const FormDesign = () => {
 								</span>
 								<br className="sm:hidden" />
 								{formParameters.formStartTime} (
-								{defaultTime.getTimezoneOffset()} Offset)
+								{defaultStartTime.getTimezoneOffset()} Offset)
 							</h1>
 
 							<hr className="rounded-lg border-2 sm:border-4 bg-neutral border-neutral my-0 sm:my-2 sm:hidden" />
@@ -1731,7 +1735,7 @@ const FormDesign = () => {
 								</span>
 								<br className="sm:hidden" />
 								{formParameters.formEndTime} (
-								{defaultTime.getTimezoneOffset()} Offset)
+								{defaultEndTime.getTimezoneOffset()} Offset)
 							</h1>
 
 							<hr className="rounded-lg border-2 sm:border-4 bg-neutral border-neutral my-0 sm:my-2 sm:hidden" />
@@ -1859,7 +1863,7 @@ const FormDesign = () => {
 						<div className="card-body px-4 py-3 md:px-5 md:py-4 lg:px-6 lg:py-5">
 							<h2 className="card-title font-black text-2xl md:text-3xl lg:text-4xl justify-start focus:border-b-8">
 								<TextareaAutosize
-									className="content-center w-full appearance-none focus:outline-none focus:border-b-4 focus:border-primary overflow-hidden bg-transparent resize-none "
+									className="whitespace-pre-wrap content-center w-full appearance-none focus:outline-none focus:border-b-4 focus:border-primary overflow-hidden bg-transparent resize-none "
 									value={formHead[0].formTitle}
 									onChange={(e) => {
 										changeFormTitle(e);
@@ -1868,7 +1872,7 @@ const FormDesign = () => {
 							</h2>
 							<h2 className="card-title font-bold text-lg md:text-xl lg:text-2xl justify-start">
 								<TextareaAutosize
-									className="content-center w-full appearance-none focus:outline-none focus:border-b-4 focus:border-primary overflow-hidden bg-transparent resize-none "
+									className="whitespace-pre-wrap w-full appearance-none focus:outline-none focus:border-b-4 focus:border-primary overflow-hidden bg-transparent resize-none "
 									value={formHead[0].formDescription}
 									onChange={(e) => {
 										changeFormDescription(e);
