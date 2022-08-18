@@ -2,9 +2,8 @@
 
 <div align="center">
 <img src="Images/formsify-logo.png" alt="logo" width="20%">
+<h1><b>Formsify | Empowering Web3 Forms 📋</h1>
 </div>
-
-# **[Formsify](https://formsify.vercel.app/) | Empowering Web3 Forms 📋**
 
 > Your forms are **Good**, but they can be **Better** 💯
 
