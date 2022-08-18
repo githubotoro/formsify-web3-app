@@ -1673,9 +1673,9 @@ const Home = () => {
 							</div>
 							<div className="blankDiv pt-3 bg-base-300" />
 							<div className="flex flex-col items-center md:items-stretch md:flex-row justify-center px-4 bg-base-300 space-y-3 md:space-y-0 space-x-0 md:space-x-3">
-								{countdownCard()}
-								{formSettingsMenu()}
 								{infoCard()}
+								{formSettingsMenu()}
+								{countdownCard()}
 							</div>
 							<div className="blankDiv pt-3 bg-base-300" />
 							<div className="flex flex-col md:flex-row justify-center px-4 bg-base-300 space-y-3 md:space-y-0 space-x-0 md:space-x-3">
