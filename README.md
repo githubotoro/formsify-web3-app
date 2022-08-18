@@ -1,8 +1,24 @@
 <!-- PROJECT HEADER -->
 
 <div align="center">
-<img src="Images/formsify-logo.png" alt="logo" width="20%">
-<h1><b>Formsify | Empowering Web3 Forms 📋</h1>
+  <a href="https://formsify.vercel.app/">
+    <img src="Images/formsify-logo.png" alt="logo" width="20%">
+    <h1>Formsify | Empowering Web3 Forms 📋</h1>
+  </a>
+  
+  <p align="center">
+    <a href="https://formsify.vercel.app/">View Project</a>
+    |
+    <a href="https://github.com/githubotoro/formsify-web3-app/issues">Report Bug</a>
+    |
+    <a href="https://github.com/githubotoro/formsify-web3-app/issues">Request Feature</a>
+    <br/>
+    <a href="https://twitter.com/formsifying">Twitter</a>
+    |
+    <a href="https://github.com/githubotoro/formsify-smart-contract">Smart Contract</a>
+    <br/> <br/>
+    <b>If you like this project, don't forget to give it a star! <br/> Thanks! 😊</b>
+  </p>
 </div>
 
 > Your forms are **Good**, but they can be **Better** 💯
