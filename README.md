@@ -1,8 +1,8 @@
 <!-- PROJECT HEADER -->
 
-<center>
+<div align="center">
 <img src="Images/formsify-logo.png" alt="logo" width="20%">
-</center>
+</div>
 
 # **[Formsify](https://formsify.vercel.app/) | Empowering Web3 Forms 📋**
 
