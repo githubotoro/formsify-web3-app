@@ -886,13 +886,13 @@ const FormView = () => {
 
 									<div className="blankDiv pt-4" />
 
-									<button
+									{/* <button
 										onClick={() => {
 											getResponseTable();
 										}}
 									>
 										Get Responses
-									</button>
+									</button> */}
 								</div>
 							</center>
 						</div>

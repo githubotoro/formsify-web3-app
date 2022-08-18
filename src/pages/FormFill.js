@@ -722,7 +722,7 @@ const FormFill = () => {
 										tabIndex="0"
 										className="w-11/12 shadow-lg collapse collapse-open bg-base-300 rounded-box border-t-8 border-secondary-focus space-y-0"
 									>
-										<div className="-mb-4 collapse-title text-xl font-bold flex-row flex">
+										<div className="-mb-4 collapse-title text-xl font-bold flex-row flex text-left">
 											<div className="requiredField mr-1 -mt-1">
 												{field.required ? (
 													<>
@@ -802,7 +802,7 @@ const FormFill = () => {
 	const [submitted, setSubmitted] = useState("pending");
 
 	useEffect(() => {
-		if (submitted !== undefined) {
+		if (submitted === "success") {
 			toast.update("submittingResponse", {
 				render: (
 					<div className="flex flex-col font-bold items-center justify-center">
@@ -884,10 +884,6 @@ const FormFill = () => {
 					formParameters.cryptoKey
 				);
 
-				const addResponse = await userFormsifyContract.addRecord(
-					encryptedResponse.toString()
-				);
-
 				toast(
 					<div className="flex flex-col font-bold items-center justify-center">
 						<div className="animate-spin">
@@ -925,9 +921,16 @@ const FormFill = () => {
 					}
 				);
 
+				const addResponse = await userFormsifyContract.addRecord(
+					encryptedResponse.toString()
+				);
+
 				await addResponse.wait();
 
+				console.log(addResponse.code);
+
 				setSubmitted("success");
+				setResponseSuccess(true);
 			} catch (err) {
 				setSubmitted("error");
 				console.log(err);
@@ -1138,7 +1141,7 @@ const FormFill = () => {
 	const countdownCard = () => {
 		return (
 			<>
-				<div className="card w-11/12 bg-base-300 shadow-xl border-t-8 border-warning">
+				<div className="card w-full bg-base-300 shadow-xl border-t-8 border-warning">
 					<div className="flex card-body py-3 w-full justify-center items-center">
 						<div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black">
 							Form&nbsp;
@@ -1178,7 +1181,7 @@ const FormFill = () => {
 	const infoCard = () => {
 		return (
 			<>
-				<div className="card w-11/12 bg-base-300 shadow-xl border-t-8 border-info">
+				<div className="card w-full bg-base-300 shadow-xl border-t-8 border-info">
 					<div className="card-body px-5 py-3">
 						<h2 className="uppercase card-title font-black drop-shadow-sm">
 							<svg
@@ -1507,9 +1510,10 @@ const FormFill = () => {
 												</>
 											) : (
 												<>
-													{infoCard()}
-													<div className="blankDiv pt-4" />
-													{countdownCard()}
+													<div className="flex flex-col md:flex-row w-11/12 items-stretch justify-center space-x-0 space-y-4 md:space-y-0 md:space-x-5 flex-1">
+														{infoCard()}
+														{countdownCard()}
+													</div>
 													<div className="blankDiv pt-4" />
 													{formBanner()}
 													<div className="blankDiv pt-4" />
