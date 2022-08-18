@@ -14,25 +14,21 @@
 
 <!-- ABOUT THE PROJECT -->
 
-# **The Problem 📌**
+## **The Problem 📌**
 
 👉 **Currently** available "Online Survey Services" are **Centralized**, **Trust-Based** & **Dependent**.
 
 > _" Thus, we have challenges of **Integrity**, **Transparency** and **Accessibility**. "_
 
----
-
 🔎 Let's have a **discussion** on the problems and drawbacks of **Online Survey Services**
 
----
+### **1. Integrity 🤝**
 
-## **1. Integrity 🤝**
-
-### **Definition 👋**
+#### **Definition 👋**
 
 > The quality of being **honest** and having strong **moral** principles.
 
-### **Problems 💢**
+#### **Problems 💢**
 
 > **How do you make sure 👇**
 
@@ -40,15 +36,13 @@
 -   that the **platform** which holds your forms, wouldn't go **down**?
 -   that the **system** which holds your data, wouldn't **betray** you?
 
----
+### **2. Transparency 📋**
 
-## **2. Transparency 📋**
-
-### **Definition 👋**
+#### **Definition 👋**
 
 > Operating in such a way that it is easy for others to **see** what **actions** were **performed**.
 
-### **Problems 💢**
+#### **Problems 💢**
 
 > **How do you confirm 👇**
 
@@ -56,15 +50,13 @@
 -   that your **forms** were **fair** to all respondents?
 -   that no-one **filled** forms on **behalf** of others?
 
----
+### **3. Accessibility ✅**
 
-## **3. Accessibility ✅**
-
-### **Definition 👋**
+#### **Definition 👋**
 
 > The **information** that the user needs must be **perceivable** to them.
 
-### **Problems 💢**
+#### **Problems 💢**
 
 > **How do you ensure 👇**
 
@@ -72,23 +64,17 @@
 -   that your **forms** can be **independently** interacted with at all the times?
 -   that **access** to your information cannot be **revoked**?
 
----
-
-# **Project Goals 💯**
+## **Project Goals 💯**
 
 👉 Formsify helps in creating **Decentralized**, **Trustless** & **Distributed** forms by giving each form their **own** digital identity in terms of **smart contract** and storing them **on-chain**.
 
 > _" Thus, we address the challenges of **Integrity**, **Transparency** and **Accessibility**. "_
 
----
-
 🔎 Let's have a **discussion** on how Formsify **solves** the problems and drawbacks of **Online Survey Services**
 
----
+### **1. Integrity 🤝**
 
-## **1. Integrity 🤝**
-
-### **Solution ✔️**
+#### **Solution ✔️**
 
 > **We make sure 👇**
 
@@ -96,13 +82,11 @@
 -   that your forms are platform **independent** and the interface can be re-built by anyone if we go down.
 -   that the system **isn't controlled** by any single entity, therefore betrayal isn't possible until majority of the network gets compromised.
 
----
+### **2. Transparency 📋**
 
-## **2. Transparency 📋**
+#### **Definition 👋**
 
-### **Definition 👋**
-
-### **Solution ✔️**
+#### **Solution ✔️**
 
 > **We confirm 👇**
 
@@ -110,11 +94,9 @@
 -   that your forms are **unbiased** in all scenarios by ensuring that they cannot be altered.
 -   that **no-one** can fill forms on behalf of others, until and unless respondent's wallet is compromised.
 
----
+### **3. Accessibility ✅**
 
-## **3. Accessibility ✅**
-
-### **Solution ✔️**
+#### **Solution ✔️**
 
 > **We ensure 👇**
 
@@ -122,19 +104,17 @@
 -   that your **forms** can be **independently** interacted with by representing them as separate smart contracts.
 -   that **access** to your information cannot be **revoked** because no single entity can stop you from accessing it.
 
----
+## **Improvements in Web3 Ecosystem 🌐**
 
-# **Improvements in Web3 Ecosystem 🌐**
-
-## **1. Accountability ❗️**
+### **1. Accountability ❗️**
 
 > Respondent **cannot deny**, once their **transaction** is recorded on-chain which makes them accountable to their responses.
 
-## **2. Spam Infeasibility ⚠️**
+### **2. Spam Infeasibility ⚠️**
 
 > Since each **form submit** will be backed by some amount of **gas**, it makes the intention of spam entries infeasible in a long run.
 
-## **3. Independency ☑️**
+### **3. Independency ☑️**
 
 > Forms are **unbiased** and have their **own digital identity** which cannot be tampered with.
 
@@ -142,7 +122,7 @@
 
 <!-- BUILT WITH -->
 
-# **Built With 🔍**
+## **Built With 🔍**
 
 **[React.js](https://reactjs.org/), [DaisyUI](https://daisyui.com/), [Firebase](https://firebase.google.com/), [RainbowKit](https://www.rainbowkit.com/), [Wagmi](https://wagmi.sh/), [Vercel](https://vercel.com/), [Tailwind CSS](https://tailwindcss.com/), [Ethers.js](https://docs.ethers.io/v5/), [Alchemy](https://www.alchemy.com/), [Fluent Emoji](https://github.com/microsoft/fluentui-emoji), [React Toastify](https://www.npmjs.com/package/react-toastify)**
 
@@ -150,11 +130,11 @@
 
 <!-- GETTING STARTED -->
 
-# **Getting Started 🚀**
+## **Getting Started 🚀**
 
 > All you need to get started with this project is **Formsiness** 👀
 
-## **Installation 💻**
+### **Installation 💻**
 
 1.  **Clone** this repo.
     ```sh
@@ -188,7 +168,7 @@
 
 <!-- CONTRIBUTING -->
 
-# **Contributing 🤝**
+## **Contributing 🤝**
 
 "Formsify" is an open-sourced project and any contributions you make are greatly appreciated. If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "Formsifying". 🏷
 
@@ -202,7 +182,7 @@
 
 <!-- LICENSE -->
 
-# **License 📃**
+## **License 📃**
 
 Distributed under the **MIT License**. See `LICENSE` for more information.
 
@@ -210,7 +190,7 @@ Distributed under the **MIT License**. See `LICENSE` for more information.
 
 <!-- CONTACT -->
 
-# **Contact 👋**
+## **Contact 👋**
 
 > **Uday Khokhariya**
 
@@ -221,7 +201,7 @@ Distributed under the **MIT License**. See `LICENSE` for more information.
 
 <!-- PROJECT LINKS -->
 
-# **Project Links 🔗**
+## **Project Links 🔗**
 
 > 📌 **[Website](https://formsify.vercel.app/) (formsify.vercel.app)**
 
