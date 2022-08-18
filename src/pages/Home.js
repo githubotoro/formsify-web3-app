@@ -13,6 +13,13 @@ import Party from "../emojis/party.svg";
 import Rsvp from "../emojis/rsvp.svg";
 import SignUp from "../emojis/signUp.svg";
 
+import PolygonLogo from "../logos/polygon.svg";
+import BuildspaceLogo from "../logos/buildspace.png";
+import AlchemyLogo from "../logos/alchemy.svg";
+import DaisyUILogo from "../logos/daisyUI.svg";
+import RainbowKitLogo from "../logos/rainbowKit.svg";
+import FluentEmojiLogo from "../logos/fluentEmoji.svg";
+
 const Home = () => {
 	const defaultFormOwner = `0xD5a63CCE627372481b30AE24c31a3Fb94913D5Be`;
 	const defaultFormId = `a5de186-dab5-60-1c23-d84174cb714`;
@@ -1295,7 +1302,7 @@ const Home = () => {
 										tabIndex="0"
 										className="w-full shadow-lg collapse collapse-open bg-base-200 rounded-box border-t-8 border-secondary space-y-0"
 									>
-										<div className="-mb-4 collapse-title text-xl font-bold flex-row flex">
+										<div className="-mb-4 collapse-title text-sm md:text-xl font-bold flex-row flex">
 											<div className="requiredField mr-1 -mt-1">
 												{field.required ? (
 													<>
@@ -1888,7 +1895,7 @@ const Home = () => {
 			<>
 				<div className="hero bg-base-200 -mt-12 -mb-8">
 					<div className="hero-content flex-col lg:flex-row-reverse">
-						<div className="p-10 text-center">
+						<div className="py-10 text-center">
 							<div className="text-3xl sm:text-4xl md:text-5xl font-black drop-shadow-sm">
 								Contact Us! 👋
 							</div>
@@ -1934,6 +1941,111 @@ const Home = () => {
 		);
 	};
 
+	const formsifyAcknowledgements = () => {
+		return (
+			<>
+				<div className="hero bg-base-200 -mt-8 -mb-8">
+					<div className="hero-content flex-col lg:flex-row-reverse">
+						<div className="py-10 text-center">
+							<div className="text-3xl sm:text-4xl md:text-5xl font-black drop-shadow-sm">
+								Acknowledgements 🙌
+							</div>
+
+							<div className="flex flex-col md:flex-row space-y-3 md:space-y-0 space-x-0 md:space-x-4 mt-7 justify-center items-center">
+								<div className="flex w-full md:w-1/4 justify-center">
+									<img
+										onClick={() => {
+											window.open(
+												"https://polygon.technology/",
+												"_blank"
+											);
+										}}
+										className="flex cursor-pointer hover:shadow-primary bg-white rounded-lg shadow-md h-14 w-full px-4 py-2 object-contain"
+										src={PolygonLogo}
+									/>
+								</div>
+
+								<div className="flex w-full md:w-1/4 justify-center">
+									<img
+										onClick={() => {
+											window.open(
+												"https://buildspace.so/",
+												"_blank"
+											);
+										}}
+										className="flex cursor-pointer hover:shadow-primary bg-white py-1 md:py-0 rounded-lg shadow-md h-14 w-full object-contain"
+										src={BuildspaceLogo}
+									/>
+								</div>
+
+								<div className="flex w-full md:w-1/4 justify-center">
+									<img
+										onClick={() => {
+											window.open(
+												"https://daisyui.com/",
+												"_blank"
+											);
+										}}
+										className="flex cursor-pointer hover:shadow-primary bg-white rounded-lg shadow-md h-14 w-full px-4 py-2 object-contain"
+										src={DaisyUILogo}
+									/>
+								</div>
+								<div className="flex w-full md:w-1/4 justify-center">
+									<img
+										onClick={() => {
+											window.open(
+												"https://www.alchemy.com/",
+												"_blank"
+											);
+										}}
+										className="flex cursor-pointer hover:shadow-primary bg-white rounded-lg shadow-md h-14 w-full px-4 py-2 object-contain"
+										src={AlchemyLogo}
+									/>
+								</div>
+							</div>
+							<div className="flex flex-col md:flex-row space-y-3 md:space-y-0 space-x-0 md:space-x-4 mt-3 justify-center items-center">
+								<div
+									onClick={() => {
+										window.open(
+											"https://www.rainbowkit.com/",
+											"_blank"
+										);
+									}}
+									className="flex w-full md:w-2/6 justify-center items-center cursor-pointer hover:shadow-primary bg-white rounded-lg shadow-md h-14 px-4 py-2 object-contain"
+								>
+									<img
+										className="flex h-8 lg:h-10 rounded-lg"
+										src={RainbowKitLogo}
+									/>
+									<span className="flex ml-2 text-2xl lg:text-3xl font-bold">
+										RainbowKit
+									</span>
+								</div>
+								<div
+									onClick={() => {
+										window.open(
+											"https://github.com/microsoft/fluentui-emoji",
+											"_blank"
+										);
+									}}
+									className="flex w-full md:w-2/6 justify-center items-center cursor-pointer hover:shadow-primary bg-white rounded-lg shadow-md h-14 px-4 py-2 object-contain"
+								>
+									<img
+										className="flex h-8 lg:h-10 rounded-lg"
+										src={FluentEmojiLogo}
+									/>
+									<span className="flex ml-2 text-2xl lg:text-3xl font-black">
+										Fluent Emoji
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</>
+		);
+	};
+
 	const contextClass = {
 		success: "bg-success",
 		error: "bg-error",
@@ -1954,6 +2066,8 @@ const Home = () => {
 			{formsifySelfReliant()}
 			<div className="blankDiv pt-5 bg-base-200" />
 			{formsifyImmutable()}
+			<div className="blankDiv pt-5 bg-base-200" />
+			{formsifyAcknowledgements()}
 			<div className="blankDiv pt-5 bg-base-200" />
 			{formsifyContactUs()}
 			<div className="blankDiv pt-5 bg-base-200" />
