@@ -16,10 +16,12 @@
     <a href="https://twitter.com/formsifying">Twitter</a>
     |
     <a href="https://github.com/githubotoro/formsify-smart-contract">Smart Contract</a>
-    <br/> <br/>
+    <br/>
     <b>If you like this project, don't forget to give it a star! <br/> Thanks! 😊</b>
   </p>
 </div>
+
+---
 
 > Your forms are **Good**, but they can be **Better** 💯
 
