@@ -8,6 +8,7 @@ import FormFill from "./pages/FormFill";
 import FormView from "./pages/FormView";
 import Error from "./pages/Error";
 import Home from "./pages/Home";
+import About from "./pages/About";
 
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
@@ -33,6 +34,19 @@ function App() {
 					<BrowserRouter>
 						<Routes>
 							<>
+								<Route
+									path="/about"
+									element={
+										<>
+											<div data-theme={FormsifyTheme}>
+												<Navigation />
+												<About />
+												<Footer />
+											</div>
+										</>
+									}
+								/>
+
 								<Route
 									path="/form/:id"
 									element={

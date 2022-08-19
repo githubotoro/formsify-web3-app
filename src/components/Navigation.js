@@ -228,33 +228,13 @@ const Navigation = () => {
 								className="menu menu-compact dropdown-content w-fit mt-3 p-2 shadow bg-base-100 rounded-box"
 							>
 								<li>
-									<label for="aboutModal1">About</label>
-
-									<input
-										type="checkbox"
-										id={`aboutModal1`}
-										className="modal-toggle"
-									/>
-									<div className="z-50 modal w-screen h-screen backdrop-blur-sm">
-										<div className="modal-box w-screen h-screen ">
-											<center>
-												<h3 className="h-fit badge rounded-xl py-1 w-full uppercase font-black text-xl">
-													About Formsify
-												</h3>
-											</center>
-
-											{/* <hr className="border-4 border-neutral rounded-lg mt-2" /> */}
-
-											<div className="modal-action">
-												<label
-													for={`aboutModal1`}
-													className="btn btn-sm font-bold text-lg capitalize"
-												>
-													Close
-												</label>
-											</div>
-										</div>
-									</div>
+									<a
+										onClick={() => {
+											navigate(`/about`);
+										}}
+									>
+										About
+									</a>
 								</li>
 								<li>
 									<a
@@ -301,73 +281,13 @@ const Navigation = () => {
 					<div className="navbar-center hidden lg:flex">
 						<ul className="menu menu-horizontal p-0">
 							<li>
-								<label for="aboutModal2">About</label>
-
-								<input
-									type="checkbox"
-									id={`aboutModal2`}
-									className="modal-toggle"
-								/>
-								<div className="z-50 modal w-screen h-screen backdrop-blur-sm">
-									<div className="modal-box max-w-screen-md">
-										<center>
-											<h3 className="h-fit badge rounded-xl py-1 w-full uppercase font-black text-xl">
-												About Formsify
-											</h3>
-										</center>
-
-										<h1 className="p-2 font-bold text-md text-center">
-											👉&nbsp;
-											<span className="font-black">
-												Formsify
-											</span>
-											&nbsp;helps in creating better
-											forms, which are&nbsp;
-											<span className="font-black">
-												Decentralized
-											</span>
-											,&nbsp;
-											<span className="font-black">
-												Trustless
-											</span>
-											&nbsp;and&nbsp;
-											<span className="font-black">
-												Distributed
-											</span>
-											.
-											<br />
-											📌&nbsp;Thereby, we solve the
-											problems of&nbsp;
-											<span className="font-black">
-												Integrity
-											</span>
-											,&nbsp;
-											<span className="font-black">
-												Transparency
-											</span>
-											&nbsp; and&nbsp;
-											<span className="font-black">
-												Accessibility
-											</span>
-											&nbsp;of&nbsp;
-											<span className="font-black">
-												Online Survey Services
-											</span>
-											.
-										</h1>
-
-										{/* <hr className="border-4 border-neutral rounded-lg mt-2" /> */}
-
-										<div className="modal-action">
-											<label
-												for={`aboutModal2`}
-												className="btn btn-sm font-bold text-lg capitalize"
-											>
-												Close
-											</label>
-										</div>
-									</div>
-								</div>
+								<a
+									onClick={() => {
+										navigate(`/about`);
+									}}
+								>
+									About
+								</a>
 							</li>
 							<li>
 								<a
