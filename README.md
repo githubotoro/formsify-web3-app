@@ -101,8 +101,6 @@
 
 ### **2. Transparency 📋**
 
-#### **Definition 👋**
-
 #### **Solution ✔️**
 
 > **We confirm 👇**
