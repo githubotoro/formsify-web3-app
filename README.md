@@ -21,17 +21,46 @@
   </p>
 </div>
 
----
+## **Formsify In A Tweet ✒️**
 
 > Your forms are **Good**, but they can be **Better** 💯
 
 👉 **[Formsify](https://formsify.vercel.app/)** helps you in creating better forms, which are **Decentralized**, **Trustless** & **Distributed**.
 
+<!-- PROJECT LINKS -->
+
+## **Project Links 🔗**
+
+> 📌 **[Website](https://formsify.vercel.app/) (formsify.vercel.app)**
+
+> 🌐 **[Twitter](https://twitter.com/formsifying) (@formsifying)**
+
+> 💻 **GitHub Source Code: [Web3 App](https://github.com/githubotoro/formsify-web3-app) | [Smart Contract](https://github.com/githubotoro/formsify-smart-contract)**
+
+<!-- PROJECT LINKS -->
+
 <!-- PROJECT HEADER -->
+
+<!-- PROJECT EVOLUTION -->
+
+## **Project Evolution 🚀**
+
+> 👉 All the below links show the **evolution** of project - **from** building idea **to** shipping features and **finally** featured working state.
+
+-   **[04.07.2022](https://www.loom.com/share/0b1e3036c74648a2b892e96025327d3d)**
+-   **[12.07.2022](https://www.loom.com/share/2530bdb7728e4e4f92b731d90eccf944)**
+-   **[19.07.2022](https://www.loom.com/share/a59261f9053f4a31a0d96912d78fee29)**
+-   **[26.07.2022](https://www.loom.com/share/e513e241789546e0ab88ba26ba6d1ffb)**
+-   **[02.08.2022](https://www.loom.com/share/cbd8f6e0130543918aae47ade23050fe)**
+-   **[09.08.2022](https://www.loom.com/share/74a17e44b5644ec4899c30f39f7b1ffa)**
+-   **[14.08.2022](https://www.loom.com/share/59ce65d2d0804c42926d5220f0b89ed3)**
+-   **[19.08.2022](https://www.youtube.com/watch?v=-BZ2BwME1g0)**
+
+<!-- PROJECT EVOLUTION -->
 
 <!-- ABOUT THE PROJECT -->
 
-## **The Problem 📌**
+## **Inspiration 📌**
 
 👉 **Currently** available "Online Survey Services" are **Centralized**, **Trust-Based** & **Dependent**.
 
@@ -81,7 +110,7 @@
 -   that your **forms** can be **independently** interacted with at all the times?
 -   that **access** to your information cannot be **revoked**?
 
-## **Project Goals 💯**
+## **What Formsify Does 💯**
 
 👉 Formsify helps in creating **Decentralized**, **Trustless** & **Distributed** forms by giving each form their **own** digital identity in terms of **smart contract** and storing them **on-chain**.
 
@@ -142,6 +171,52 @@
 **[React.js](https://reactjs.org/), [DaisyUI](https://daisyui.com/), [Firebase](https://firebase.google.com/), [RainbowKit](https://www.rainbowkit.com/), [Wagmi](https://wagmi.sh/), [Vercel](https://vercel.com/), [Tailwind CSS](https://tailwindcss.com/), [Ethers.js](https://docs.ethers.io/v5/), [Alchemy](https://www.alchemy.com/), [Fluent Emoji](https://github.com/microsoft/fluentui-emoji), [React Toastify](https://www.npmjs.com/package/react-toastify)**
 
 <!-- BUILT WITH -->
+
+<!-- HOW FORMSIFY WAS BUILT -->
+
+## **How Formsify Was Built 🧱**
+
+> Each **form** is represented as an indiviudal **smart contract**
+> The Smart Contract has following main features:
+
+-   **Owner** (Form Deployer)
+-   **Fills** (Total fills of the deployed form)
+-   **maxFills** (Maximum fills that are allowed per form)
+-   **startTime** and **endTime** (Opening and closing times of form)
+-   **allowedTotalFills** (Number of fills allowed per user for a particular form)
+-   **formHead** (Headers of the form which includes the initial parameters of heading and description)
+-   **fields** (Question fields of the form)
+-   **records** (Stores responses of the deployed form)
+-   **filledRecords** (Tracks fill id and total number of fills of a particular address)
+
+> We had to make sure that each form **response**, although stored on-chain, would still remain unreadable to **ensure** data privacy.
+
+-   We achieved it using **AES Cryptography**, where key of each form would be unique, generated using **[react-uuid](https://www.npmjs.com/package/react-uuid)** and encryption-decryption is carried out using **[crypto-js](https://www.npmjs.com/package/crypto-js)**.
+
+> App is based on following:
+
+-   made using **[React](https://reactjs.org/)**
+-   styled using **[Tailwind](https://tailwindcss.com/)**
+-   designed using **[DaisyUI](https://daisyui.com/)**
+-   data is stored on **[Firebase](https://firebase.google.com/)**
+-   chain on which forms are stored is **[Polygon](https://polygon.technology/)**
+-   connect wallet funtionality is abstracted from **[RainbowKit](https://www.rainbowkit.com/)**
+-   chain APIs are fetched from **[Alchemy](https://www.alchemy.com/)**
+-   web3 app is deployed on **[Vercel](https://vercel.com/)**
+
+<!-- HOW FORMSIFY WAS BUILT -->
+
+<!-- CHALLENGES -->
+
+## **Challenges Tackled Down 😎**
+
+-   deploying **smart contracts** from **frontend**
+-   **synchronizing** block time and local time of forms deployed **on-chain**
+-   **maintaining** data **privacy** while storing data on-chain
+-   **cryptographic** encryption and decryption of fetched form **data** locally
+-   setting form **parameters** of smart contracts to ensure **fill frequency and limits**
+
+<!-- CHALLENGES -->
 
 <!-- GETTING STARTED -->
 
@@ -214,14 +289,39 @@ Distributed under the **MIT License**. See `LICENSE` for more information.
 
 <!-- CONTACT -->
 
-<!-- PROJECT LINKS -->
+<!-- ACCOMPLISHMENTS -->
 
-## **Project Links 🔗**
+## **Accomplishments 😇**
 
-> 📌 **[Website](https://formsify.vercel.app/) (formsify.vercel.app)**
+![image](https://assets.devfolio.co/content/ce874dffee904123bc573c510e98782d/58fb2f3a-0df9-49dc-a477-47662f4834e1.jpeg)
+👉 Formsify has been a part of 🦄 **Buildspace's Nights and Weekends Program - Season 1** and was also **presented** under their "Demo Day" held on **6.8.2022**
 
-> 🌐 **[Twitter](https://twitter.com/formsifying) (@formsifying)**
+<!-- ACCOMPLISHMENTS -->
 
-> 💻 **GitHub Source Code: [Web3 App](https://github.com/githubotoro/formsify-web3-app) | [Smart Contract](https://github.com/githubotoro/formsify-smart-contract)**
+<!-- WHAT WE LEARNED -->
 
-<!-- PROJECT LINKS -->
+## **What We Learned 🎓**
+
+> Added the following learnings to our portfolio:
+
+-   Pre-planning of solution before coding does matter. (We learnt it the hard-way. 😅)
+-   Making separate components helps in saving a lot of development time. (Reusability is highly underrated! ⌛️)
+-   Take proper backups before forcing a git repo to commit back to previous release. (Just in case you mess up like us, there is a command called 'git reflog', use it wisely. May the force be with you! 🌌)
+-   Things which work locally, can create serious problems after deployement, if left untested. (What happens on localhost, stays on localhost. 😬)
+-   Conduct experiments on a trial project before breaking up the main code. (Breaking & fixing is the endgame after all. 😌)
+
+<!-- WHAT WE LEARNED -->
+
+<!-- NEXT FOR FORMSIFY -->
+
+## **What's Next For Formsify 👀**
+
+> We are looking forward on the inclusion of following features:
+
+-   make **dynamic** smart contract creation based on forms
+-   include more **customization** options
+-   have forms record information as **solitary** variables instead of a JSON string
+-   provide **saving & editing** functionalities for form respondents
+-   add editable smart contract functions for **after** deployment changes
+
+<!-- NEXT FOR FORMSIFY -->
