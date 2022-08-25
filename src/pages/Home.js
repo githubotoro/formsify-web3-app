@@ -601,7 +601,7 @@ const Home = () => {
 					<input
 						type="text"
 						placeholder="Response Goes Here... 📋"
-						className="mt-1 font-semibold text-lg w-full input border-4 input-bordered"
+						className="mt-1 font-semibold text-md md:text-lg w-full input border-4 input-bordered"
 					/>
 				</>
 			);
@@ -609,7 +609,7 @@ const Home = () => {
 			return (
 				<>
 					<textarea
-						className="mt-1 font-semibold text-lg w-full textarea border-4 textarea-bordered"
+						className="mt-1 font-semibold text-md md:text-lg w-full textarea border-4 textarea-bordered"
 						placeholder="Response Goes Here... 📋"
 					></textarea>
 				</>
@@ -619,7 +619,7 @@ const Home = () => {
 				<>
 					<input
 						type="date"
-						className="mt-1 font-bold text-lg w-full textarea border-4 textarea-bordered"
+						className="mt-1 font-bold text-md md:text-lg w-full textarea border-4 textarea-bordered"
 					></input>
 				</>
 			);
@@ -628,7 +628,7 @@ const Home = () => {
 				<>
 					<input
 						type="time"
-						className="mt-1 font-bold text-lg w-full textarea border-4 textarea-bordered"
+						className="mt-1 font-bold text-md md:text-lg w-full textarea border-4 textarea-bordered"
 					></input>
 				</>
 			);
@@ -637,7 +637,7 @@ const Home = () => {
 				<>
 					<input
 						type="datetime-local"
-						className="mt-1 font-bold text-lg w-full textarea border-4 textarea-bordered"
+						className="mt-1 font-bold text-md md:text-lg w-full textarea border-4 textarea-bordered"
 					></input>
 				</>
 			);
@@ -646,14 +646,14 @@ const Home = () => {
 				<>
 					<input
 						type="number"
-						className="mt-1 font-semibold text-lg w-full textarea border-4 textarea-bordered"
+						className="mt-1 font-semibold text-md md:text-lg w-full textarea border-4 textarea-bordered"
 					></input>
 				</>
 			);
 		} else if (field.fieldType === `checkBoxes`) {
 			return (
 				<>
-					<div className="mt-1 font-semibold text-lg w-full space-y-2">
+					<div className="mt-1 font-semibold text-md md:text-lg w-full space-y-2">
 						{field.choices.map((choice, choiceIndex) => {
 							return (
 								<>
@@ -690,7 +690,7 @@ const Home = () => {
 												/>
 
 												<TextareaAutosize
-													className="label-text text-lg font-bold w-full appearance-none focus:outline-none focus:border-b-4 focus:border-primary overflow-hidden bg-transparent resize-none whitespace-pre-wrap"
+													className="label-text text-md md:text-lg font-bold w-full appearance-none focus:outline-none focus:border-b-4 focus:border-primary overflow-hidden bg-transparent resize-none whitespace-pre-wrap"
 													value={choice.choiceText}
 													onChange={(e) => {
 														changeChoiceText(
@@ -762,7 +762,7 @@ const Home = () => {
 												/>
 
 												<TextareaAutosize
-													className="label-text text-lg font-bold w-full appearance-none focus:outline-none focus:border-b-4 focus:border-primary overflow-hidden bg-transparent resize-none whitespace-pre-wrap"
+													className="label-text text-md md:text-lg font-bold w-full appearance-none focus:outline-none focus:border-b-4 focus:border-primary overflow-hidden bg-transparent resize-none whitespace-pre-wrap"
 													value={choice.choiceText}
 													onChange={(e) => {
 														changeChoiceText(
@@ -1668,24 +1668,24 @@ const Home = () => {
 	const formsifyWindow = () => {
 		return (
 			<>
-				<div className="p-5 bg-base-200">
+				<div className="p-2 md:p-5 bg-base-200 -mt-2">
 					<div>
 						<div
 							data-theme={formTheme}
 							className="mockup-window bg-accent shadow-md py-4"
 						>
 							<div className="blankDiv pt-3 bg-base-300" />
-							<div className="flex flex-col items-center md:items-stretch md:flex-row justify-center px-4 bg-base-300 space-y-3 md:space-y-0 space-x-0 md:space-x-3">
+							<div className="flex flex-col items-center md:items-stretch md:flex-row justify-center px-2 md:px-4 bg-base-300 space-y-3 md:space-y-0 space-x-0 md:space-x-3">
 								{emojiCard()}
 							</div>
 							<div className="blankDiv pt-3 bg-base-300" />
-							<div className="flex flex-col items-center md:items-stretch md:flex-row justify-center px-4 bg-base-300 space-y-3 md:space-y-0 space-x-0 md:space-x-3">
+							<div className="flex flex-col items-center md:items-stretch md:flex-row justify-center px-2 md:px-4 bg-base-300 space-y-3 md:space-y-0 space-x-0 md:space-x-3">
 								{infoCard()}
 								{formSettingsMenu()}
 								{countdownCard()}
 							</div>
 							<div className="blankDiv pt-3 bg-base-300" />
-							<div className="flex flex-col md:flex-row justify-center px-4 bg-base-300 space-y-3 md:space-y-0 space-x-0 md:space-x-3">
+							<div className="flex flex-col md:flex-row justify-center px-2 md:px-4 bg-base-300 space-y-3 md:space-y-0 space-x-0 md:space-x-3">
 								{fieldCard()}
 							</div>
 							<div className="blankDiv pt-3 bg-base-300" />
@@ -1893,7 +1893,7 @@ const Home = () => {
 	const formsifyContactUs = () => {
 		return (
 			<>
-				<div className="hero bg-base-200 -mt-12 -mb-8">
+				<div className="hero bg-base-200 -mt-14 -mb-8">
 					<div className="hero-content flex-col lg:flex-row-reverse">
 						<div className="py-10 text-center">
 							<div className="text-3xl sm:text-4xl md:text-5xl font-black drop-shadow-sm">
@@ -2046,6 +2046,26 @@ const Home = () => {
 		);
 	};
 
+	const demoCard = () => {
+		return (
+			<>
+				<div className="pt-2 flex flex-col items-center justify-center text-center bg-base-200">
+					<div className="text-3xl sm:text-4xl md:text-5xl font-black drop-shadow-sm">
+						Formsify Demo 🚀
+					</div>
+					<iframe
+						className="rounded-2xl drop-shadow-lg mt-7 w-[340px] h-[191.25px] md:w-[560px] md:h-[315px] lg:w-[850px] lg:h-[478.125px]"
+						src="https://www.youtube.com/embed/-BZ2BwME1g0"
+						title="YouTube video player"
+						frameborder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+						allowfullscreen
+					></iframe>
+				</div>
+			</>
+		);
+	};
+
 	const contextClass = {
 		success: "bg-success",
 		error: "bg-error",
@@ -2066,6 +2086,8 @@ const Home = () => {
 			{formsifySelfReliant()}
 			<div className="blankDiv pt-5 bg-base-200" />
 			{formsifyImmutable()}
+			<div className="blankDiv pt-5 bg-base-200" />
+			{demoCard()}
 			<div className="blankDiv pt-5 bg-base-200" />
 			{formsifyAcknowledgements()}
 			<div className="blankDiv pt-5 bg-base-200" />

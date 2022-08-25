@@ -23,6 +23,8 @@ import {
 import { useAccount } from "wagmi";
 import { UserContext } from "../helper/UserContext";
 
+import Footer from "../components/Footer";
+
 const Dashboard = () => {
 	const { User, setUser } = useContext(UserContext);
 	const { address, isConnected } = useAccount();
@@ -687,6 +689,7 @@ const Dashboard = () => {
 				</div>
 
 				<div className="blankDiv pt-5 w-full" />
+				<Footer />
 			</div>
 		</>
 	);

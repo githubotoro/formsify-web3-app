@@ -3,7 +3,7 @@
 <div align="center">
   <a href="https://formsify.vercel.app/">
     <img src="Images/formsify-logo.png" alt="logo" width="20%">
-    <h1>Formsify | Empowering Web3 Forms 📋</h1>
+    <h1>Formsify | Let's Create Better Forms 📋</h1>
   </a>
   
   <p align="center">

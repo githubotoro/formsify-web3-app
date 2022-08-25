@@ -615,7 +615,7 @@ const FormDesign = () => {
 					<input
 						type="text"
 						placeholder="Response Goes Here... 📋"
-						className="mt-1 font-semibold text-lg w-full input border-4 input-bordered"
+						className="mt-1 font-semibold text-md md:text-lg w-full input border-4 input-bordered"
 					/>
 				</>
 			);
@@ -623,7 +623,7 @@ const FormDesign = () => {
 			return (
 				<>
 					<textarea
-						className="mt-1 font-semibold text-lg w-full textarea border-4 textarea-bordered"
+						className="mt-1 font-semibold text-md md:text-lg w-full textarea border-4 textarea-bordered"
 						placeholder="Response Goes Here... 📋"
 					></textarea>
 				</>
@@ -633,7 +633,7 @@ const FormDesign = () => {
 				<>
 					<input
 						type="date"
-						className="mt-1 font-bold text-lg w-full textarea border-4 textarea-bordered"
+						className="mt-1 font-bold text-md md:text-lg w-full textarea border-4 textarea-bordered"
 					></input>
 				</>
 			);
@@ -642,7 +642,7 @@ const FormDesign = () => {
 				<>
 					<input
 						type="time"
-						className="mt-1 font-bold text-lg w-full textarea border-4 textarea-bordered"
+						className="mt-1 font-bold text-md md:text-lg w-full textarea border-4 textarea-bordered"
 					></input>
 				</>
 			);
@@ -651,7 +651,7 @@ const FormDesign = () => {
 				<>
 					<input
 						type="datetime-local"
-						className="mt-1 font-bold text-lg w-full textarea border-4 textarea-bordered"
+						className="mt-1 font-bold text-md md:text-lg w-full textarea border-4 textarea-bordered"
 					></input>
 				</>
 			);
@@ -660,7 +660,7 @@ const FormDesign = () => {
 				<>
 					<input
 						type="number"
-						className="mt-1 font-semibold text-lg w-full textarea border-4 textarea-bordered"
+						className="mt-1 font-semibold text-md md:text-lg w-full textarea border-4 textarea-bordered"
 					></input>
 				</>
 			);
@@ -704,7 +704,7 @@ const FormDesign = () => {
 												/>
 
 												<TextareaAutosize
-													className="label-text text-lg font-bold w-full appearance-none focus:outline-none focus:border-b-4 focus:border-primary overflow-hidden bg-transparent resize-none whitespace-pre-wrap"
+													className="label-text text-md md:text-lg font-bold w-full appearance-none focus:outline-none focus:border-b-4 focus:border-primary overflow-hidden bg-transparent resize-none whitespace-pre-wrap"
 													value={choice.choiceText}
 													onChange={(e) => {
 														changeChoiceText(
@@ -774,7 +774,7 @@ const FormDesign = () => {
 												/>
 
 												<TextareaAutosize
-													className="label-text text-lg font-bold w-full appearance-none focus:outline-none focus:border-b-4 focus:border-primary overflow-hidden bg-transparent resize-none whitespace-pre-wrap"
+													className="label-text text-md md:text-lg font-bold w-full appearance-none focus:outline-none focus:border-b-4 focus:border-primary overflow-hidden bg-transparent resize-none whitespace-pre-wrap"
 													value={choice.choiceText}
 													onChange={(e) => {
 														changeChoiceText(
@@ -1314,7 +1314,7 @@ const FormDesign = () => {
 										tabIndex="0"
 										className="w-11/12 shadow-lg collapse collapse-open bg-base-300 rounded-box border-t-8 border-secondary-focus space-y-0"
 									>
-										<div className="-mb-4 collapse-title text-xl font-bold flex-row flex">
+										<div className="-mb-4 collapse-title text-md md:text-lg font-bold flex-row flex">
 											<div className="requiredField mr-1 -mt-1">
 												{field.required ? (
 													<>
@@ -2273,7 +2273,7 @@ const FormDesign = () => {
 	const renderDesign = () => {
 		return (
 			<>
-				<div className="pt-5 pb-5 max-w-[75rem]">
+				<div className="pt-5 pb-5 max-w-[80rem]">
 					{formSettingsMenu()}
 
 					<div className="blankDiv pt-4" />

@@ -3,6 +3,32 @@ const About = () => {
 		return <span className="font-black">{content}</span>;
 	};
 
+	const pointerSVG = () => {
+		return (
+			<>
+				<div>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						className="h-5 w-6 md:h-6 md:w-8 bg-warning rounded-md shadow-md px-1"
+						viewBox="0 0 20 20"
+						fill="currentColor"
+					>
+						<path
+							fillRule="evenodd"
+							d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+							clipRule="evenodd"
+						/>
+						<path
+							fillRule="evenodd"
+							d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+							clipRule="evenodd"
+						/>
+					</svg>
+				</div>
+			</>
+		);
+	};
+
 	const introCard = () => {
 		return (
 			<>
@@ -63,69 +89,21 @@ const About = () => {
 						&nbsp;How do you make sure 👇
 						<br />
 						<div className="flex flex-row items-center mt-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-8 bg-warning rounded-md shadow-md px-1"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fillRule="evenodd"
-									d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-								<path
-									fillRule="evenodd"
-									d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-							</svg>
+							{pointerSVG()}
 							<div className="pl-2">
 								that the {B("server")} which holds your
 								information wouldn't be {B("compromised")}?
 							</div>
 						</div>
 						<div className="flex flex-row items-center mt-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-8 bg-warning rounded-md shadow-md px-1"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fillRule="evenodd"
-									d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-								<path
-									fillRule="evenodd"
-									d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-							</svg>
+							{pointerSVG()}
 							<div className="pl-2">
 								that the {B("platform")} which holds your forms,
 								wouldn't go {B("down")}?
 							</div>
 						</div>
 						<div className="flex flex-row items-center mt-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-8 bg-warning rounded-md shadow-md px-1"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fillRule="evenodd"
-									d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-								<path
-									fillRule="evenodd"
-									d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-							</svg>
+							{pointerSVG()}
 							<div className="pl-2">
 								that the {B("system")} which holds your data,
 								wouldn't {B("betray")} you?
@@ -159,68 +137,20 @@ const About = () => {
 						&nbsp;How do you confirm 👇
 						<br />
 						<div className="flex flex-row items-center mt-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-8 bg-warning rounded-md shadow-md px-1"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fillRule="evenodd"
-									d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-								<path
-									fillRule="evenodd"
-									d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-							</svg>
+							{pointerSVG()}
 							<div className="pl-2">
 								that your {B("data")} was {B("unaltered")}?
 							</div>
 						</div>
 						<div className="flex flex-row items-center mt-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-8 bg-warning rounded-md shadow-md px-1"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fillRule="evenodd"
-									d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-								<path
-									fillRule="evenodd"
-									d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-							</svg>
+							{pointerSVG()}
 							<div className="pl-2">
 								that your {B("forms")} were {B("fair")} to all
 								respondents?
 							</div>
 						</div>
 						<div className="flex flex-row items-center mt-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-8 bg-warning rounded-md shadow-md px-1"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fillRule="evenodd"
-									d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-								<path
-									fillRule="evenodd"
-									d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-							</svg>
+							{pointerSVG()}
 							<div className="pl-2">
 								that no-one {B("filled")} forms on {B("behalf")}{" "}
 								of others?
@@ -254,46 +184,14 @@ const About = () => {
 						&nbsp;How do you ensure 👇
 						<br />
 						<div className="flex flex-row items-center mt-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-8 bg-warning rounded-md shadow-md px-1"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fillRule="evenodd"
-									d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-								<path
-									fillRule="evenodd"
-									d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-							</svg>
+							{pointerSVG()}
 							<div className="pl-2">
 								that your {B("data")} will be accessible, even
 								when system goes {B("down")}?
 							</div>
 						</div>
 						<div className="flex flex-row items-center mt-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-8 bg-warning rounded-md shadow-md px-1"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fillRule="evenodd"
-									d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-								<path
-									fillRule="evenodd"
-									d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-							</svg>
+							{pointerSVG()}
 							<div className="pl-2">
 								that your {B("forms")} can be{" "}
 								{B("independently")} interacted with at all the
@@ -301,23 +199,7 @@ const About = () => {
 							</div>
 						</div>
 						<div className="flex flex-row items-center mt-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-8 bg-warning rounded-md shadow-md px-1"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fillRule="evenodd"
-									d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-								<path
-									fillRule="evenodd"
-									d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-							</svg>
+							{pointerSVG()}
 							<div className="pl-2">
 								that {B("access")} to your information cannot be{" "}
 								{B("revoked")}?
@@ -371,23 +253,7 @@ const About = () => {
 						&nbsp;We make sure 👇
 						<br />
 						<div className="flex flex-row items-center mt-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-8 bg-warning rounded-md shadow-md px-1"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fillRule="evenodd"
-									d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-								<path
-									fillRule="evenodd"
-									d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-							</svg>
+							{pointerSVG()}
 							<div className="pl-2">
 								that your data is {B("decentralized")} and
 								therefore, it remains uncompromised because
@@ -395,23 +261,7 @@ const About = () => {
 							</div>
 						</div>
 						<div className="flex flex-row items-center mt-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-8 bg-warning rounded-md shadow-md px-1"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fillRule="evenodd"
-									d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-								<path
-									fillRule="evenodd"
-									d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-							</svg>
+							{pointerSVG()}
 							<div className="pl-2">
 								that your forms are platform {B("independent")}{" "}
 								and the interface can be re-built by anyone if
@@ -419,23 +269,7 @@ const About = () => {
 							</div>
 						</div>
 						<div className="flex flex-row items-center mt-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-8 bg-warning rounded-md shadow-md px-1"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fillRule="evenodd"
-									d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-								<path
-									fillRule="evenodd"
-									d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-							</svg>
+							{pointerSVG()}
 							<div className="pl-2">
 								that the system {B("isn't controlled")} by any
 								single entity, therefore betrayal isn't possible
@@ -464,46 +298,14 @@ const About = () => {
 						&nbsp;We confirm 👇
 						<br />
 						<div className="flex flex-row items-center mt-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-8 bg-warning rounded-md shadow-md px-1"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fillRule="evenodd"
-									d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-								<path
-									fillRule="evenodd"
-									d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-							</svg>
+							{pointerSVG()}
 							<div className="pl-2">
 								that your data is {B("immutable")} by storing it
 								on Blockchain.
 							</div>
 						</div>
 						<div className="flex flex-row items-center mt-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-8 bg-warning rounded-md shadow-md px-1"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fillRule="evenodd"
-									d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-								<path
-									fillRule="evenodd"
-									d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-							</svg>
+							{pointerSVG()}
 							<div className="pl-2">
 								that your forms are {B("unbiased")} in all
 								scenarios by ensuring that they cannot be
@@ -511,23 +313,7 @@ const About = () => {
 							</div>
 						</div>
 						<div className="flex flex-row items-center mt-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-8 bg-warning rounded-md shadow-md px-1"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fillRule="evenodd"
-									d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-								<path
-									fillRule="evenodd"
-									d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-							</svg>
+							{pointerSVG()}
 							<div className="pl-2">
 								that {B("no-one")} can fill forms on behalf of
 								others, until and unless respondent's wallet is
@@ -556,46 +342,14 @@ const About = () => {
 						&nbsp;We ensure 👇
 						<br />
 						<div className="flex flex-row items-center mt-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-8 bg-warning rounded-md shadow-md px-1"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fillRule="evenodd"
-									d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-								<path
-									fillRule="evenodd"
-									d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-							</svg>
+							{pointerSVG()}
 							<div className="pl-2">
 								that your {B("data")} is {B("accessible")}, even
 								if go down by storing it on-chain.
 							</div>
 						</div>
 						<div className="flex flex-row items-center mt-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-8 bg-warning rounded-md shadow-md px-1"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fillRule="evenodd"
-									d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-								<path
-									fillRule="evenodd"
-									d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-							</svg>
+							<div>{pointerSVG()}</div>
 							<div className="pl-2">
 								that your {B("forms")} can be independently
 								interacted with by representing them as separate{" "}
@@ -603,23 +357,7 @@ const About = () => {
 							</div>
 						</div>
 						<div className="flex flex-row items-center mt-1">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-6 w-8 bg-warning rounded-md shadow-md px-1"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fillRule="evenodd"
-									d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-								<path
-									fillRule="evenodd"
-									d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-									clipRule="evenodd"
-								/>
-							</svg>
+							{pointerSVG()}
 							<div className="pl-2">
 								that {B("access")} to your information{" "}
 								{B("cannot be revoked")} because no single
@@ -632,18 +370,169 @@ const About = () => {
 		);
 	};
 
+	const developerCard = () => {
+		return (
+			<>
+				<div className="card w-full bg-base-200 shadow-xl border-t-8 border-primary py-4 px-4 md:px-6">
+					<div className="text-xl lg:text-3xl font-black ">
+						Created By 🦄
+					</div>
+
+					<div className="flex flex-row items-center text-sm sm:text-md md:text-lg lg:text-xl font-semibold text-left mt-2 md:mt-3">
+						<div className="avatar drop-shadow-lg">
+							<div className="w-16 md:w-24 mask mask-squircle">
+								<img src="https://avatars.githubusercontent.com/u/101034951?v=4" />
+							</div>
+						</div>
+						<div>
+							<div className="ml-2 md:ml-4 text-lg lg:text-xl font-black">
+								Uday Khokhariya
+							</div>
+
+							<button
+								className="ml-2 md:ml-4 mt-1 md:mt-2 capitalize btn btn-secondary btn-sm h-fit w-fit px-2 lg:px-3 py-0 lg:py-1 text-lg lg:text-xl items-center rounded-lg lg:rounded-xl font-black shadow-lg"
+								onClick={() => {
+									window.open(
+										"https://blockscan.com/address/0xD5a63CCE627372481b30AE24c31a3Fb94913D5Be",
+										"_blank"
+									);
+								}}
+							>
+								Blockscan
+							</button>
+						</div>
+					</div>
+				</div>
+			</>
+		);
+	};
+
+	const socialCard = () => {
+		return (
+			<>
+				<div className="card w-full bg-base-200 shadow-xl border-t-8 border-secondary py-4 px-4 md:px-6">
+					<div className="text-xl lg:text-3xl font-black">
+						Contact Me 👋
+					</div>
+
+					<div className="flex flex-row items-center text-sm sm:text-md md:text-lg lg:text-xl font-semibold text-left mt-2 md:mt-3">
+						{/* <div className="avatar drop-shadow-lg">
+							<div className="w-14 md:w-24 mask mask-squircle">
+								<img src="https://avatars.githubusercontent.com/u/101034951?v=4" />
+							</div>
+						</div> */}
+						<div>
+							<div className="text-md sm:text-lg md:text-xl lg:text-2xl font-black justify-center items-center">
+								<button
+									className="m-1 capitalize btn btn-primary btn-sm h-fit w-fit px-2 lg:px-3 py-0 lg:py-1 text-lg lg:text-xl items-center rounded-lg lg:rounded-xl font-black shadow-lg"
+									onClick={() => {
+										window.open(
+											"mailto: uday.khokhariya@gmail.com",
+											"_blank"
+										);
+									}}
+								>
+									Email
+								</button>
+								<button
+									className="m-1 capitalize btn btn-primary btn-sm h-fit w-fit px-2 lg:px-3 py-0 lg:py-1 text-lg lg:text-xl items-center rounded-lg lg:rounded-xl font-black shadow-lg"
+									onClick={() => {
+										window.open(
+											"https://yupuday.vercel.app/",
+											"_blank"
+										);
+									}}
+								>
+									Portfolio
+								</button>
+
+								<button
+									className="m-1 capitalize btn btn-primary btn-sm h-fit w-fit px-2 lg:px-3 py-0 lg:py-1 text-lg lg:text-xl items-center rounded-lg lg:rounded-xl font-black shadow-lg"
+									onClick={() => {
+										window.open(
+											"https://github.com/githubotoro",
+											"_blank"
+										);
+									}}
+								>
+									GitHub
+								</button>
+								<button
+									className="m-1 capitalize btn btn-primary btn-sm h-fit w-fit px-2 lg:px-3 py-0 lg:py-1 text-lg lg:text-xl items-center rounded-lg lg:rounded-xl font-black shadow-lg"
+									onClick={() => {
+										window.open(
+											"https://twitter.com/yupuday",
+											"_blank"
+										);
+									}}
+								>
+									Twitter
+								</button>
+								<button
+									className="m-1 capitalize btn btn-primary btn-sm h-fit w-fit px-2 lg:px-3 py-0 lg:py-1 text-lg lg:text-xl items-center rounded-lg lg:rounded-xl font-black shadow-lg"
+									onClick={() => {
+										window.open(
+											"https://www.linkedin.com/in/yupuday/",
+											"_blank"
+										);
+									}}
+								>
+									LinkedIn
+								</button>
+
+								<button
+									className="m-1 capitalize btn btn-primary btn-sm h-fit w-fit px-2 lg:px-3 py-0 lg:py-1 text-lg lg:text-xl items-center rounded-lg lg:rounded-xl font-black shadow-lg"
+									onClick={() => {
+										window.open(
+											"https://www.lensfrens.xyz/yupuday.lens",
+											"_blank"
+										);
+									}}
+								>
+									Lens
+								</button>
+								<button
+									className="m-1 capitalize btn btn-primary btn-sm h-fit w-fit px-2 lg:px-3 py-0 lg:py-1 text-lg lg:text-xl items-center rounded-lg lg:rounded-xl font-black shadow-lg"
+									onClick={() => {
+										window.open(
+											"https://buildspace.so/@yupuday",
+											"_blank"
+										);
+									}}
+								>
+									BuildSpace
+								</button>
+								<button
+									className="m-1 capitalize btn btn-primary btn-sm h-fit w-fit px-2 lg:px-3 py-0 lg:py-1 text-lg lg:text-xl items-center rounded-lg lg:rounded-xl font-black shadow-lg"
+									onClick={() => {
+										window.open(
+											"https://www.producthunt.com/@yupuday",
+											"_blank"
+										);
+									}}
+								>
+									ProductHunt
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</>
+		);
+	};
+
 	const aboutWindow = () => {
 		return (
 			<>
-				<div className="p-5 bg-base-200">
+				<div className="p-2 md:p-5 bg-base-200">
 					<div>
 						<div className="mockup-window bg-accent shadow-md py-4">
 							<div className="blankDiv pt-3 bg-base-300" />
-							<div className="flex flex-col items-center md:items-stretch md:flex-row justify-center px-4 bg-base-300 space-y-3 md:space-y-0 space-x-0 md:space-x-3">
+							<div className="flex flex-col items-center md:items-stretch md:flex-row justify-center px-2 md:px-4 bg-base-300 space-y-3 md:space-y-0 space-x-0 md:space-x-3">
 								{introCard()}
 							</div>
 							<div className="blankDiv pt-3 bg-base-300" />
-							<div className="flex flex-col items-center  justify-center px-4 bg-base-300 space-y-3 ">
+							<div className="flex flex-col items-center  justify-center px-2 md:px-4 bg-base-300 space-y-3 ">
 								{problemCard()}
 								{problem1()}
 								{problem2()}
@@ -654,8 +543,9 @@ const About = () => {
 								{solution3()}
 							</div>
 							<div className="blankDiv pt-3 bg-base-300" />
-							<div className="flex flex-col md:flex-row justify-center px-4 bg-base-300 space-y-3 md:space-y-0 space-x-0 md:space-x-3">
-								{/* {fieldCard()} */}
+							<div className="flex flex-col md:flex-row justify-center px-2 md:px-4 bg-base-300 space-y-3 md:space-y-0 space-x-0 md:space-x-3">
+								{developerCard()}
+								{socialCard()}
 							</div>
 							<div className="blankDiv pt-3 bg-base-300" />
 						</div>

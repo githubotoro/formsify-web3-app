@@ -28,6 +28,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 import CryptoJS from "crypto-js";
 
+import FormFooter from "../components/FormFooter";
+
 const FormFill = () => {
 	const { User, setUser } = useContext(UserContext);
 
@@ -541,7 +543,7 @@ const FormFill = () => {
 					<input
 						type="text"
 						placeholder="Response Goes Here... 📋"
-						className="mt-1 font-semibold text-lg w-full input border-4 input-bordered"
+						className="mt-1 font-semibold text-md md:text-lg w-full input border-4 input-bordered"
 						onChange={(e) => {
 							changeInputResponse(e, index);
 						}}
@@ -552,7 +554,7 @@ const FormFill = () => {
 			return (
 				<>
 					<textarea
-						className="mt-1 font-semibold text-lg w-full textarea border-4 textarea-bordered"
+						className="mt-1 font-semibold text-md md:text-lg w-full textarea border-4 textarea-bordered"
 						placeholder="Response Goes Here... 📋"
 						onChange={(e) => {
 							changeInputResponse(e, index);
@@ -565,7 +567,7 @@ const FormFill = () => {
 				<>
 					<input
 						type="date"
-						className="mt-1 font-bold text-lg w-full textarea border-4 textarea-bordered"
+						className="mt-1 font-bold text-md md:text-lg w-full textarea border-4 textarea-bordered"
 						onChange={(e) => {
 							changeInputResponse(e, index);
 						}}
@@ -577,7 +579,7 @@ const FormFill = () => {
 				<>
 					<input
 						type="time"
-						className="mt-1 font-bold text-lg w-full textarea border-4 textarea-bordered"
+						className="mt-1 font-bold text-md md:text-lg w-full textarea border-4 textarea-bordered"
 						onChange={(e) => {
 							changeInputResponse(e, index);
 						}}
@@ -589,7 +591,7 @@ const FormFill = () => {
 				<>
 					<input
 						type="datetime-local"
-						className="mt-1 font-bold text-lg w-full textarea border-4 textarea-bordered"
+						className="mt-1 font-bold text-md md:text-lg w-full textarea border-4 textarea-bordered"
 						onChange={(e) => {
 							changeInputResponse(e, index);
 						}}
@@ -601,7 +603,7 @@ const FormFill = () => {
 				<>
 					<input
 						type="number"
-						className="mt-1 font-semibold text-lg w-full textarea border-4 textarea-bordered"
+						className="mt-1 font-semibold text-md md:text-lg w-full textarea border-4 textarea-bordered"
 						onChange={(e) => {
 							changeInputResponse(e, index);
 						}}
@@ -629,7 +631,7 @@ const FormFill = () => {
 														);
 													}}
 												/>
-												<div className="label-text text-lg font-bold">
+												<div className="label-text text-md md:text-lg font-bold">
 													{choice.choiceText}
 												</div>
 											</label>
@@ -663,7 +665,7 @@ const FormFill = () => {
 														);
 													}}
 												/>
-												<div className="label-text text-lg font-bold">
+												<div className="label-text text-md md:text-lg font-bold">
 													{choice.choiceText}
 												</div>
 											</label>
@@ -722,7 +724,7 @@ const FormFill = () => {
 										tabIndex="0"
 										className="w-11/12 shadow-lg collapse collapse-open bg-base-300 rounded-box border-t-8 border-secondary-focus space-y-0"
 									>
-										<div className="-mb-4 collapse-title text-xl font-bold flex-row flex text-left">
+										<div className="-mb-4 collapse-title text-md md:text-lg font-bold flex-row flex text-left">
 											<div className="requiredField mr-1 -mt-1">
 												{field.required ? (
 													<>
@@ -1498,7 +1500,7 @@ const FormFill = () => {
 								<div className="bg-base-200 py-4">
 									{formsifyCustomRainbowConnectWallet()}
 								</div>
-								<div className="pt-5 pb-5 max-w-[75rem]">
+								<div className="pt-5 pb-5 max-w-[80rem]">
 									{hasFormEnded === false ? (
 										<>
 											{responseSuccess ? (
@@ -1537,6 +1539,7 @@ const FormFill = () => {
 								</div>
 							</center>
 						</div>
+						<FormFooter />
 					</>
 				)}
 				<ToastContainer
