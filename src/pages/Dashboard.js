@@ -689,7 +689,7 @@ const Dashboard = () => {
 				</div>
 
 				<div className="blankDiv pt-5 w-full" />
-				<Footer />
+				{/* <Footer /> */}
 			</div>
 		</>
 	);
