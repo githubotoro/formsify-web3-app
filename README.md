@@ -2,7 +2,7 @@
 
 <div align="center">
   <a href="https://formsify.vercel.app/">
-    <img src="https://imgur.com/pB2XE55" alt="logo" width="20%">
+    <img src="https://i.imgur.com/pB2XE55.png" alt="logo" width="20%">
     <h1>Formsify | Let's Create Better Forms 📋</h1>
   </a>
   
